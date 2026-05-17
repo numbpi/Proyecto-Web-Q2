@@ -1,0 +1,14 @@
+# .NET build output
+bin/
+obj/
+
+# Del repo de clase: credenciales y configuracion sensible
+Config/*
+!Config/.gitkeep
+appsettings.json
+appsettings.Development.json
+
+# IDE
+.vs/
+.idea/
+*.user
