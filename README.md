@@ -23,7 +23,7 @@ Proyecto-Web-Q2/
 dotnet run
 ```
 
-## Miembros del Equipo No.2
+## Miembros del Equipo No.6
 
 | # | Nombre | GitHub | Rol |
 |---|--------|--------|-----|
