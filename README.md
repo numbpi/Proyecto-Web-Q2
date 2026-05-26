@@ -37,7 +37,8 @@ dotnet run
 
 | Paquete | Versión |
 |---------|---------|
-| `NombreDelPaquete` | `x.x.x` |
-| `NombreDelPaquete` | `x.x.x` |
-| `NombreDelPaquete` | `x.x.x` |
+| `Google.Cloud.Firestore` | `4.2.0` |
+| `Microsoft.AspNetCore.Authentication.JwtBearer` | `10.0.8` |
+| `Microsoft.AspNetCore.OpenApi` | `10.0.7` |
+| `Scalar.AspNetCore` | `2.14.11` |
 
