@@ -23,6 +23,11 @@ Proyecto-Web-Q2/
 dotnet run
 ```
 
+## Restaurar Dependencias(Packages)
+``` bash
+dotnet restore
+```
+
 ## Miembros del Equipo No.6
 
 | # | Nombre | GitHub | Rol |
