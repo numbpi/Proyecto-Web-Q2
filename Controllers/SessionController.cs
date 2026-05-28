@@ -1,6 +1,3 @@
 namespace Proyecto_Web_Q2.Controllers;
 
-public class SessionController
-{
-    
-}
+public class SessionController { }

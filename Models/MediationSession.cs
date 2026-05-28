@@ -1,6 +1,3 @@
 namespace Proyecto_Web_Q2.Models;
 
-public class MediationSession
-{
-    
-}
+public class MediationSession { }

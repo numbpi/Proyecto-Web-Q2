@@ -20,6 +20,7 @@ builder.Services.AddScoped<AgreementService>();
 builder.Services.AddScoped<SessionService>();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<ExperimentService>();
 
 builder.Services.AddControllers();
 
