@@ -5,8 +5,8 @@ obj/
 # Del repo de clase: credenciales y configuracion sensible
 Config/*
 !Config/.gitkeep
-appsettings.json
-appsettings.Development.json
+# appsettings.json
+# appsettings.Development.json
 *.http
 # IDE
 .vs/

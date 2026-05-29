@@ -36,15 +36,18 @@ Notas de clase:
 */
 builder
     .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(opt =>
+    .AddJwtBearer(options =>
     {
-        opt.TokenValidationParameters = new TokenValidationParameters
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true, // Verificar que el token lo emitimos nosotros (app)
-            ValidateAudience = true, // Verificar que el token est para la misma app
-            ValidateLifetime = true, // Verificar que el token no ha expirado
-            ValidateIssuerSigningKey = true, // Verificar que la firma es valida
-
+            // Verificar que el token lo emitimos nosotros (app)
+            ValidateIssuer = true,
+            // Verificar que el token est para la misma app
+            ValidateAudience = true,
+            // Verificar que el token no ha expirado
+            ValidateLifetime = true,
+            // Verificar que la firma es valida
+            ValidateIssuerSigningKey = true,
             // Verificar que estos valores coincidan con los que usamos para generar el token
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
