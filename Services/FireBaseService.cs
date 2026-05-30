@@ -13,7 +13,7 @@ public class FireBaseService
         var credentialPath = Path.Combine(
             AppContext.BaseDirectory,
             "Config",
-             "firebase-credentials.json"
+            "firebase-credentials.json"
         );
 
         // Seteamos la variable de entorno para que el SDK de Firebase pueda encontrar las credenciales

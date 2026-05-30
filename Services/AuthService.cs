@@ -120,4 +120,3 @@ public class AuthService
         return Convert.ToBase64String(bytes);
     }
 }
-

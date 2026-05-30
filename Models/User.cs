@@ -15,4 +15,3 @@ public class User
     // Para saber cuando se creo el registro
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
-
