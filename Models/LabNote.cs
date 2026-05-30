@@ -9,6 +9,6 @@ public class LabNote
     public int Priority { get; set; } = 0;
     public bool IsPublic { get; set; } = false;
     public string Tags { get; set; } = string.Empty;
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public string UserId { get; set; } = string.Empty;
 }
