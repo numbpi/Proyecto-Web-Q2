@@ -32,7 +32,20 @@ public class LabNoteService
         };
 
         var collection = _fireBaseService.GetCollection(CollectionName);
-        await collection.Document(note.Id).SetAsync(note);
+        await collection.Document(note.Id).SetAsync(
+            new Dictionary<string, object>()
+            {
+                { "Id", note.Id },
+                { "Title", note.Title },
+                { "Observation", note.Observation },
+                { "Category", note.Category },
+                { "Priority", note.Priority },
+                { "IsPublic", note.IsPublic },
+                { "Tags", note.Tags },
+                { "CreatedAt", note.CreatedAt },
+                { "UserId", note.UserId },
+            }
+        );
 
         return note;
     }
@@ -51,7 +64,21 @@ public class LabNoteService
         {
             if (document.Exists)
             {
-                notes.Add(document.ConvertTo<LabNote>());
+                var data = document.ToDictionary();
+                notes.Add(
+                    new LabNote
+                    {
+                        Id = data["Id"].ToString()!,
+                        Title = data["Title"].ToString()!,
+                        Observation = data["Observation"].ToString()!,
+                        Category = data["Category"].ToString()!,
+                        Priority = Convert.ToInt32(data["Priority"]),
+                        IsPublic = (bool)data["IsPublic"],
+                        Tags = data["Tags"].ToString()!,
+                        CreatedAt = ((Google.Cloud.Firestore.Timestamp)data["CreatedAt"]).ToDateTime(),
+                        UserId = data["UserId"].ToString()!,
+                    }
+                );
             }
         }
 
@@ -69,9 +96,10 @@ public class LabNoteService
             throw new KeyNotFoundException("La nota no existe.");
         }
 
-        var note = snapshot.ConvertTo<LabNote>();
+        var data = snapshot.ToDictionary();
+        var noteUserId = data["UserId"].ToString()!;
 
-        if (note.UserId != userId)
+        if (noteUserId != userId)
         {
             throw new UnauthorizedAccessException("Ojo, No tienes el permiso para eliminar esta nota.");
         }

@@ -20,11 +20,8 @@ builder.Services.AddScoped<AgreementService>();
 builder.Services.AddScoped<SessionService>();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<NotificationService>();
-<<<<<<< HEAD
 builder.Services.AddScoped<LabNoteService>();
-=======
 builder.Services.AddScoped<ExperimentService>();
->>>>>>> 42b05774d045aad39a00d0093ff159e5de1680a6
 
 builder.Services.AddControllers();
 
@@ -107,4 +104,3 @@ app.MapControllers();
 
 app.Run();
 
-  
