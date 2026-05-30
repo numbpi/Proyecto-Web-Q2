@@ -20,6 +20,7 @@ builder.Services.AddScoped<AgreementService>();
 builder.Services.AddScoped<SessionService>();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<LabNoteService>();
 
 builder.Services.AddControllers();
 
@@ -98,3 +99,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+  
