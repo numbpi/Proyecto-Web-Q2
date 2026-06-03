@@ -188,14 +188,12 @@ public class CaseService(FireBaseService fb)
                 "Solo el mediador asignado puede cambiar el estado del caso"
             );
 
-        var transicionesValidas = new Dictionary<(string, string), string>
-        {
-            { ("asignado", "en mediacion"), "asignado → en mediación" },
-            { ("en mediacion", "resuelto"), "en mediación → resuelto" },
-            { ("en mediacion", "cerrado sin acuerdo"), "en mediación → cerrado sin acuerdo" },
-        };
+        bool transicionValida =
+            (caso.Status == "asignado" && newStatus == "en mediacion") ||
+            (caso.Status == "en mediacion" && newStatus == "resuelto") ||
+            (caso.Status == "en mediacion" && newStatus == "cerrado sin acuerdo");
 
-        if (!transicionesValidas.ContainsKey((caso.Status, newStatus)))
+        if (!transicionValida)
             throw new Exception($"No se puede pasar de '{caso.Status}' a '{newStatus}'");
 
         var updates = new Dictionary<string, object> { { "Status", newStatus } };
