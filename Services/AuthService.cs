@@ -34,7 +34,7 @@ public class AuthService
             FullName = dto.FullName,
             Email = dto.Email,
             PasswordHash = HashPasword(dto.Password),
-            Role = "user",
+            Role = dto.Role,
             CreatedAt = DateTime.UtcNow,
         };
 

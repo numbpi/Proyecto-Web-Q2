@@ -24,6 +24,7 @@ public class MediatorService
             IsAvailable = dto.IsAvailable,
             IsActive = true,
             ActiveCases = 0,
+            UserId = dto.UserId,
             CreatedAt = DateTime.UtcNow
         };
 

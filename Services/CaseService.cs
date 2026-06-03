@@ -183,7 +183,17 @@ public class CaseService(FireBaseService fb)
 
         var caso = MapToCase(doc);
 
-        if (caso.MediadorId != userId)
+        // buscar el UserId del mediador asignado en la coleccion "mediators"
+        var mediatorDoc = await _firebaseService
+            .GetCollection("mediators")
+            .Document(caso.MediadorId)
+            .GetSnapshotAsync();
+
+        string? mediatorUserId = mediatorDoc.Exists && mediatorDoc.ContainsField("UserId")
+            ? mediatorDoc.GetValue<string?>("UserId")
+            : null;
+
+        if (mediatorUserId != userId)
             throw new UnauthorizedAccessException(
                 "Solo el mediador asignado puede cambiar el estado del caso"
             );
@@ -225,7 +235,9 @@ public class CaseService(FireBaseService fb)
             Description = doc.GetValue<string>("Description") ?? string.Empty,
             Address = doc.GetValue<string>("Address") ?? string.Empty,
             Status = doc.GetValue<string>("Status") ?? "nuevo",
-            MediadorId = doc.GetValue<string>("MediadorId"),
+            MediadorId = doc.ContainsField("MediadorId")
+                ? doc.GetValue<string>("MediadorId")
+                : null,
             EvidenceUrls = doc.GetValue<List<string>>("EvidenceUrls") ?? [],
             CreatedAt = doc.GetValue<DateTime>("CreatedAt"),
             AssignedAt = doc.ContainsField("AssignedAt")

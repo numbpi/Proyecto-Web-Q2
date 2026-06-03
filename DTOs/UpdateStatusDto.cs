@@ -2,11 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Web_Q2.DTOs;
 
-public class UpdateCaseDto
+public class UpdateStatusDto
 {
     [Required]
     public string Status { get; set; } = string.Empty;
-
-    [Required]
-    public string? MediatorId { get; set; } = null;
 }

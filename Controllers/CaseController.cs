@@ -79,11 +79,40 @@ public class CaseController : ControllerBase
         }
     }
 
-    /*
-      TODO: Los enpoints pendientes que me faltan son:
-        1. Para asignar el mediador
-        2. Para actualizar  el Caso -> porque ocupo lo del MediadorId
+    [HttpPut]
+    [Authorize(Roles = "admin")]
+    [Route("{caseId}/assign")]
+    public async Task<IActionResult> AsignMediator(string caseId, [FromBody] AssignMediatorDto dto)
+    {
+        try
+        {
+            var caso = await _caseService.AssignMediatorAsync(caseId, dto.MediatorId);
+            return Ok(caso);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 
-      Porque ocupo lo de mediador
-    */
+    [HttpPut]
+    [Authorize(Roles = "mediator")]
+    [Route("{caseId}/status")]
+    public async Task<IActionResult> UpdateStatusAsync(
+        string caseId,
+        [FromBody] UpdateStatusDto dto
+    )
+    {
+        try
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var caso = await _caseService.UpdateStatusAsync(caseId, dto.Status, userId!);
+
+            return Ok(caso);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }

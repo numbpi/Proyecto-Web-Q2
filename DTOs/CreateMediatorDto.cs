@@ -16,6 +16,9 @@ public class CreateMediatorDto
     public string Specialty { get; set; } = string.Empty;
 
     public bool IsAvailable { get; set; } = true;
+
+    public string? UserId { get; set; }
 }
 
 // No lleva Id, CreatedAt ni ActiveCases, porque esos los genera el servidor ya de un solo
+

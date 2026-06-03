@@ -32,7 +32,10 @@ public class Mediator
     [FirestoreProperty]
     public int ActiveCases { get; set; }
 
-    //
+    // referencia al Id del usuario en la coleccion "users"
+    [FirestoreProperty]
+    public string? UserId { get; set; }
+
     [FirestoreProperty]
     public DateTime CreatedAt { get; set; }
 }
