@@ -28,24 +28,26 @@ public class LabNoteService
             IsPublic = dto.IsPublic,
             Tags = dto.Tags,
             CreatedAt = DateTime.UtcNow,
-            UserId = userId
+            UserId = userId,
         };
 
         var collection = _fireBaseService.GetCollection(CollectionName);
-        await collection.Document(note.Id).SetAsync(
-            new Dictionary<string, object>()
-            {
-                { "Id", note.Id },
-                { "Title", note.Title },
-                { "Observation", note.Observation },
-                { "Category", note.Category },
-                { "Priority", note.Priority },
-                { "IsPublic", note.IsPublic },
-                { "Tags", note.Tags },
-                { "CreatedAt", note.CreatedAt },
-                { "UserId", note.UserId },
-            }
-        );
+        await collection
+            .Document(note.Id)
+            .SetAsync(
+                new Dictionary<string, object>()
+                {
+                    { "Id", note.Id },
+                    { "Title", note.Title },
+                    { "Observation", note.Observation },
+                    { "Category", note.Category },
+                    { "Priority", note.Priority },
+                    { "IsPublic", note.IsPublic },
+                    { "Tags", note.Tags },
+                    { "CreatedAt", note.CreatedAt },
+                    { "UserId", note.UserId },
+                }
+            );
 
         return note;
     }
@@ -54,9 +56,7 @@ public class LabNoteService
     {
         var collection = _fireBaseService.GetCollection(CollectionName);
 
-        var snapshot = await collection
-            .WhereEqualTo("UserId", userId)
-            .GetSnapshotAsync();
+        var snapshot = await collection.WhereEqualTo("UserId", userId).GetSnapshotAsync();
 
         var notes = new List<LabNote>();
 
@@ -75,7 +75,9 @@ public class LabNoteService
                         Priority = Convert.ToInt32(data["Priority"]),
                         IsPublic = (bool)data["IsPublic"],
                         Tags = data["Tags"].ToString()!,
-                        CreatedAt = ((Google.Cloud.Firestore.Timestamp)data["CreatedAt"]).ToDateTime(),
+                        CreatedAt = (
+                            (Google.Cloud.Firestore.Timestamp)data["CreatedAt"]
+                        ).ToDateTime(),
                         UserId = data["UserId"].ToString()!,
                     }
                 );
@@ -101,7 +103,9 @@ public class LabNoteService
 
         if (noteUserId != userId)
         {
-            throw new UnauthorizedAccessException("Ojo, No tienes el permiso para eliminar esta nota.");
+            throw new UnauthorizedAccessException(
+                "Ojo, No tienes el permiso para eliminar esta nota."
+            );
         }
 
         await documentRef.DeleteAsync();
@@ -114,7 +118,9 @@ public class LabNoteService
 
         if (!validCategories.Contains(dto.Category))
         {
-            throw new ArgumentException("La categoría solo puede ser: Quimica, Biologia, Fisica u Otro.");
+            throw new ArgumentException(
+                "La categoría solo puede ser: Quimica, Biologia, Fisica u Otro."
+            );
         }
 
         if (dto.Priority < 1 || dto.Priority > 3)

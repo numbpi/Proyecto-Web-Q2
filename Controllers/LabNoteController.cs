@@ -69,7 +69,7 @@ public class LabNoteController : ControllerBase
     private string GetUserIdFromToken()
     {
         return User.FindFirstValue(ClaimTypes.NameIdentifier)
-               ?? User.FindFirstValue("sub")
-               ?? throw new UnauthorizedAccessException("No se pudo optener el UserId del token.");
+            ?? User.FindFirstValue("sub")
+            ?? throw new UnauthorizedAccessException("No se pudo optener el UserId del token.");
     }
 }

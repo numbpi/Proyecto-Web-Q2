@@ -12,4 +12,3 @@ public class LabNote
     public DateTime CreatedAt { get; set; }
     public string UserId { get; set; } = string.Empty;
 }
-

@@ -66,7 +66,7 @@ public class NotificationController : ControllerBase
     private string GetUserIdFromToken()
     {
         return User.FindFirstValue(ClaimTypes.NameIdentifier)
-               ?? User.FindFirstValue("sub")
-               ?? throw new UnauthorizedAccessException("No se pudo obtener el UserId del token");
+            ?? User.FindFirstValue("sub")
+            ?? throw new UnauthorizedAccessException("No se pudo obtener el UserId del token");
     }
 }

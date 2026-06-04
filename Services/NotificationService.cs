@@ -26,7 +26,7 @@ public class NotificationService
             Message = dto.Message,
             Type = dto.Type,
             IsRead = false,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
         };
 
         var collection = _fireBaseService.GetCollection(CollectionName);
@@ -35,14 +35,12 @@ public class NotificationService
         return notification;
     }
 
-    // esto nos sirve para buscar las notificaciones de usuario especifico 
+    // esto nos sirve para buscar las notificaciones de usuario especifico
     public async Task<List<Notification>> GetByUserAsync(string userId)
     {
         var collection = _fireBaseService.GetCollection(CollectionName);
 
-        var snapshot = await collection
-            .WhereEqualTo("UserId", userId)
-            .GetSnapshotAsync();
+        var snapshot = await collection.WhereEqualTo("UserId", userId).GetSnapshotAsync();
 
         var notifications = new List<Notification>();
 
@@ -57,7 +55,7 @@ public class NotificationService
         return notifications;
     }
 
-    // Marca una notificacion como leida 
+    // Marca una notificacion como leida
     public async Task<bool> MarkAsReadAsync(string id, string userId)
     {
         var collection = _fireBaseService.GetCollection(CollectionName);
@@ -74,7 +72,9 @@ public class NotificationService
 
         if (notification.UserId != userId)
         {
-            throw new UnauthorizedAccessException("No tienes permiso para modificar esta notificacion");
+            throw new UnauthorizedAccessException(
+                "No tienes permiso para modificar esta notificacion"
+            );
         }
 
         await documentRef.UpdateAsync("IsRead", true);
@@ -89,7 +89,9 @@ public class NotificationService
 
         if (!validTypes.Contains(type))
         {
-            throw new ArgumentException("El tipo solo puede ser uno de estos: Case, Session, Agreement o General.");
+            throw new ArgumentException(
+                "El tipo solo puede ser uno de estos: Case, Session, Agreement o General."
+            );
         }
     }
 }

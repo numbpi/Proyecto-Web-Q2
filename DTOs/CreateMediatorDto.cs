@@ -21,4 +21,3 @@ public class CreateMediatorDto
 }
 
 // No lleva Id, CreatedAt ni ActiveCases, porque esos los genera el servidor ya de un solo
-

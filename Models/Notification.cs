@@ -17,18 +17,18 @@ public class Notification
     [FirestoreProperty]
     public string Title { get; set; } = string.Empty;
 
-    //El mensaje 
+    //El mensaje
     [FirestoreProperty]
     public string Message { get; set; } = string.Empty;
 
-    // aqui va el tipo ya sea un caso una sesion o un Agreement 
+    // aqui va el tipo ya sea un caso una sesion o un Agreement
     [FirestoreProperty]
     public string Type { get; set; } = string.Empty;
 
-    // verifica si ya fue leida 
+    // verifica si ya fue leida
     [FirestoreProperty]
     public bool IsRead { get; set; }
-    
+
     [FirestoreProperty]
     public DateTime CreatedAt { get; set; }
 }

@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Web_Q2.DTOs;
 
-
 //esto de aqui sirve para recibir los datos cuando se quiere crear una notificacion
 public class CreateNotificationDto
 {

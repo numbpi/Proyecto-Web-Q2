@@ -189,9 +189,10 @@ public class CaseService(FireBaseService fb)
             .Document(caso.MediadorId)
             .GetSnapshotAsync();
 
-        string? mediatorUserId = mediatorDoc.Exists && mediatorDoc.ContainsField("UserId")
-            ? mediatorDoc.GetValue<string?>("UserId")
-            : null;
+        string? mediatorUserId =
+            mediatorDoc.Exists && mediatorDoc.ContainsField("UserId")
+                ? mediatorDoc.GetValue<string?>("UserId")
+                : null;
 
         if (mediatorUserId != userId)
             throw new UnauthorizedAccessException(
@@ -199,9 +200,9 @@ public class CaseService(FireBaseService fb)
             );
 
         bool transicionValida =
-            (caso.Status == "asignado" && newStatus == "en mediacion") ||
-            (caso.Status == "en mediacion" && newStatus == "resuelto") ||
-            (caso.Status == "en mediacion" && newStatus == "cerrado sin acuerdo");
+            (caso.Status == "asignado" && newStatus == "en mediacion")
+            || (caso.Status == "en mediacion" && newStatus == "resuelto")
+            || (caso.Status == "en mediacion" && newStatus == "cerrado sin acuerdo");
 
         if (!transicionValida)
             throw new Exception($"No se puede pasar de '{caso.Status}' a '{newStatus}'");

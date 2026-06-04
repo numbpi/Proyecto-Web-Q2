@@ -25,7 +25,7 @@ public class MediatorService
             IsActive = true,
             ActiveCases = 0,
             UserId = dto.UserId,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
         };
 
         var collection = _fireBaseService.GetCollection(CollectionName);
