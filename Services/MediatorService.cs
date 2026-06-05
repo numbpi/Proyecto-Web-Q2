@@ -83,6 +83,7 @@ public class MediatorService
         mediator.Specialty = dto.Specialty;
         mediator.IsAvailable = dto.IsAvailable;
         mediator.IsActive = dto.IsActive;
+        mediator.UserId = dto.UserId;
 
         await documentRef.SetAsync(mediator);
 
