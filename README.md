@@ -34,9 +34,8 @@ dotnet restore
 |---|--------|--------|-----|
 | 1 | Oscar Yahir Oliva Hernandez | [@Olivaaa8](https://github.com/Olivaaa8) | Líder |
 | 2 | Anthony David Dubon Sarmiento | [@AnthonyDubon](https://github.com/AnthonyDubon) | Miembro |
-| 3 | Keven Eduardo Bardales Brito | [@keven-bardales](https://github.com/keven-bardales) | Miembro |
-| 4 | Victor Neptali Orellana Carranza | [@victorore2006-lab](https://github.com/victorore2006-lab) | Miembro |
-| 5 | Raul Isaac Moncada Vasquez | [@numbpi](https://github.com/numbpi) | Miembro |
+| 3 | Victor Neptali Orellana Carranza | [@victorore2006-lab](https://github.com/victorore2006-lab) | Miembro |
+| 4 | Raul Isaac Moncada Vasquez | [@numbpi](https://github.com/numbpi) | Miembro |
 
 ## Paquetes NuGet
 
