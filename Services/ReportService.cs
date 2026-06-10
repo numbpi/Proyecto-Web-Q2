@@ -186,8 +186,13 @@ public class ReportService
         var casesSnapshot = await _fireBaseService.GetCollection("cases").GetSnapshotAsync();
 
         var casesPerMediator = casesSnapshot.Documents
-            .GroupBy(d => d.GetValue<string>("MediatorId"))
-            .ToDictionary(g => g.Key, g => g.Count());
+            .GroupBy(d => d.ContainsField("MediatorId")
+                ? d.GetValue<string>("MediatorId")
+                : d.ContainsField("MediadorId")
+                    ? d.GetValue<string>("MediadorId")
+                    : null)
+            .Where(g => g.Key != null)
+            .ToDictionary(g => g.Key!, g => g.Count());
 
         var result = mediatorsSnapshot.Documents.Select(m => new Dictionary<string, object>
         {
@@ -209,15 +214,21 @@ public class ReportService
         return new Report
         {
             Id = doc.Id,
-            Type = doc.GetValue<string>("Type") ?? string.Empty,
-            GeneratedBy = doc.GetValue<string>("GeneratedBy") ?? string.Empty,
+            Type = doc.ContainsField("Type")
+                ? doc.GetValue<string>("Type") ?? string.Empty
+                : string.Empty,
+            GeneratedBy = doc.ContainsField("GeneratedBy")
+                ? doc.GetValue<string>("GeneratedBy") ?? string.Empty
+                : string.Empty,
             Filters = doc.ContainsField("Filters")
                 ? doc.GetValue<Dictionary<string, object>>("Filters") ?? []
                 : [],
             Data = doc.ContainsField("Data")
                 ? doc.GetValue<Dictionary<string, object>>("Data") ?? []
                 : [],
-            CreatedAt = doc.GetValue<DateTime>("CreatedAt"),
+            CreatedAt = doc.ContainsField("CreatedAt")
+                ? doc.GetValue<DateTime>("CreatedAt")
+                : DateTime.MinValue,
         };
     }
 }

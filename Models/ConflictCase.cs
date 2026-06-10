@@ -11,7 +11,7 @@ public class ConflictCase
     public string Description { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string Status { get; set; } = "nuevo";
-    public string? MediadorId { get; set; } = null;
+    public string? MediatorId { get; set; } = null;
     public List<string> EvidenceUrls { get; set; } = [];
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? AssignedAt { get; set; } = null;
