@@ -31,4 +31,6 @@ public class Notification
 
     [FirestoreProperty]
     public DateTime CreatedAt { get; set; }
+
+    public string? ReferenceId { get; set; }
 }
