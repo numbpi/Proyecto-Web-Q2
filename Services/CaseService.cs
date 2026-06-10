@@ -87,7 +87,7 @@ public class CaseService(FireBaseService fb)
         {
             "admin" => (await collection.GetSnapshotAsync()).Documents.Select(MapToCase).ToList(),
 
-            "mediator" => (await collection.WhereEqualTo("MediadorId", userId).GetSnapshotAsync())
+            "mediator" => (await collection.WhereEqualTo("MediatorId", userId).GetSnapshotAsync())
                 .Documents.Select(MapToCase)
                 .ToList(),
 
@@ -103,7 +103,7 @@ public class CaseService(FireBaseService fb)
 
         var respondentTask = collection.WhereEqualTo("RespondentId", userId).GetSnapshotAsync();
 
-        var mediatorTask = collection.WhereEqualTo("MediadorId", userId).GetSnapshotAsync();
+        var mediatorTask = collection.WhereEqualTo("MediatorId", userId).GetSnapshotAsync();
 
         await Task.WhenAll(reporterTask, respondentTask, mediatorTask);
 
@@ -153,14 +153,14 @@ public class CaseService(FireBaseService fb)
 
         var updates = new Dictionary<string, object>
         {
-            { "MediadorId", mediatorId },
+            { "MediatorId", mediatorId },
             { "Status", "asignado" },
             { "AssignedAt", DateTime.UtcNow },
         };
 
         await doc.Reference.UpdateAsync(updates);
 
-        caso.MediadorId = mediatorId;
+        caso.MediatorId = mediatorId;
         caso.Status = "asignado";
         caso.AssignedAt = DateTime.UtcNow;
 
@@ -186,7 +186,7 @@ public class CaseService(FireBaseService fb)
         // buscar el UserId del mediador asignado en la coleccion "mediators"
         var mediatorDoc = await _firebaseService
             .GetCollection("mediators")
-            .Document(caso.MediadorId)
+            .Document(caso.MediatorId)
             .GetSnapshotAsync();
 
         string? mediatorUserId =
@@ -236,8 +236,8 @@ public class CaseService(FireBaseService fb)
             Description = doc.GetValue<string>("Description") ?? string.Empty,
             Address = doc.GetValue<string>("Address") ?? string.Empty,
             Status = doc.GetValue<string>("Status") ?? "nuevo",
-            MediadorId = doc.ContainsField("MediadorId")
-                ? doc.GetValue<string>("MediadorId")
+            MediatorId = doc.ContainsField("MediatorId")
+                ? doc.GetValue<string>("MediatorId")
                 : null,
             EvidenceUrls = doc.GetValue<List<string>>("EvidenceUrls") ?? [],
             CreatedAt = doc.GetValue<DateTime>("CreatedAt"),

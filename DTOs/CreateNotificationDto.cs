@@ -16,4 +16,7 @@ public class CreateNotificationDto
 
     [Required]
     public string Type { get; set; } = string.Empty;
+
+    [Required]
+    public required object ReferenceId { get; set; }
 }
