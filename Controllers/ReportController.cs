@@ -1,21 +1,27 @@
-namespace Proyecto_Web_Q2.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Proyecto_Web_Q2.DTOs;
 using Proyecto_Web_Q2.Services;
 using System.Security.Claims;
 
+namespace Proyecto_Web_Q2.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class ReportsController(ReportService reportService) : ControllerBase
+public class ReportsController : ControllerBase
 {
-    private readonly ReportService _reportService = reportService;
- 
+    private readonly ReportService _reportService;
+
+    public ReportsController(ReportService reportService)
+    {
+        _reportService = reportService;
+    }
+
     private string GetUserId() =>
         User.FindFirstValue(ClaimTypes.NameIdentifier)
         ?? throw new UnauthorizedAccessException("No se pudo obtener el usuario autenticado");
- 
+
     /// <summary>
     /// Genera un nuevo reporte según tipo y filtros.
     /// Tipos: "casos", "acuerdos", "sesiones", "mediadores"
@@ -27,7 +33,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
         {
             var userId = GetUserId();
             var report = await _reportService.GenerateAsync(dto, userId);
- 
+
             var response = new ReportDto
             {
                 Id = report.Id,
@@ -37,7 +43,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
                 Data = report.Data,
                 CreatedAt = report.CreatedAt,
             };
- 
+
             return Ok(response);
         }
         catch (Exception ex)
@@ -45,7 +51,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
- 
+
     /// <summary>
     /// Obtiene un reporte por su Id.
     /// </summary>
@@ -55,7 +61,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
         try
         {
             var report = await _reportService.GetByIdAsync(reportId);
- 
+
             var response = new ReportDto
             {
                 Id = report.Id,
@@ -65,7 +71,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
                 Data = report.Data,
                 CreatedAt = report.CreatedAt,
             };
- 
+
             return Ok(response);
         }
         catch (Exception ex)
@@ -73,7 +79,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
             return NotFound(new { message = ex.Message });
         }
     }
- 
+
     /// <summary>
     /// Obtiene todos los reportes generados por el usuario autenticado.
     /// </summary>
@@ -84,7 +90,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
         {
             var userId = GetUserId();
             var reports = await _reportService.GetByUserAsync(userId);
- 
+
             var response = reports.Select(r => new ReportDto
             {
                 Id = r.Id,
@@ -94,7 +100,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
                 Data = r.Data,
                 CreatedAt = r.CreatedAt,
             });
- 
+
             return Ok(response);
         }
         catch (Exception ex)
@@ -102,7 +108,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
- 
+
     /// <summary>
     /// Lista todos los reportes del sistema (uso administrativo/mediadores).
     /// </summary>
@@ -112,7 +118,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
         try
         {
             var reports = await _reportService.GetAllAsync();
- 
+
             var response = reports.Select(r => new ReportDto
             {
                 Id = r.Id,
@@ -122,7 +128,7 @@ public class ReportsController(ReportService reportService) : ControllerBase
                 Data = r.Data,
                 CreatedAt = r.CreatedAt,
             });
- 
+
             return Ok(response);
         }
         catch (Exception ex)
@@ -130,3 +136,4 @@ public class ReportsController(ReportService reportService) : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+}
