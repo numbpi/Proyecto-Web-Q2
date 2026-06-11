@@ -1,0 +1,10 @@
+{
+  "name": "proyecto",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^25.9.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
