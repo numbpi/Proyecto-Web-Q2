@@ -9,3 +9,13 @@
 | 3 | Victor Neptali Orellana Carranza | [@victorore2006-lab](https://github.com/victorore2006-lab) | Miembro |
 | 4 | Raul Isaac Moncada Vasquez | [@numbpi](https://github.com/numbpi) | Miembro |
 
+
+## Levantar Backned y Frontend
+
+### Para ejecutarlo con Node
+```bash
+node dev.ts
+```
+
+> [!NOTE]
+> Si no jala eso, toca a la viejita escula por separado :P
