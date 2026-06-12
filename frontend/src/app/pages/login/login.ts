@@ -42,7 +42,7 @@ export class Login {
       next: (res: ILoginResponse): void => {
         this.authService.saveToken(res.token);
         console.log('Login funcionando Bien');
-        this.router.navigate(['./home']);
+        this.router.navigate(['/home']);
       },
 
       error: (): void => {
