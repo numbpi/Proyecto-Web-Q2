@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ILoginResponse } from '../../models/user.model';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatInputModule,
     MatButtonModule,
+    RouterLink,
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',
@@ -32,6 +33,7 @@ export class Login {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   onLogin = (): void => {
@@ -49,6 +51,7 @@ export class Login {
         this.errorMessage = `Credenciales Invalidas`;
         console.error('Ocurrio un Error con el Login');
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
     });
   };

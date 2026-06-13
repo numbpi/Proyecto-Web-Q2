@@ -2,7 +2,7 @@ export interface ILoginResponse {
   token: string;
 }
 
-export interface IRigisterResponse {
+export interface IRegisterResponse {
   id: string;
   fullName: string;
   password: string;
