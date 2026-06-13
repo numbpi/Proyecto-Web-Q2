@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ILoginResponse, IRigisterResponse } from '../models/user.model';
+import { ILoginResponse, IRegisterResponse } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -12,8 +12,8 @@ export class AuthService {
   /**
    *
    */
-  register = (fullName: string, email: string, password: string): Observable<IRigisterResponse> =>
-    this.http.post<IRigisterResponse>(`${this.apiURL}/register`, { fullName, email, password });
+  register = (fullName: string, email: string, password: string): Observable<IRegisterResponse> =>
+    this.http.post<IRegisterResponse>(`${this.apiURL}/register`, { fullName, email, password });
 
   /**
    * @param {string} email - correo electronico del usuario
