@@ -59,8 +59,10 @@ const correrProcesos = (
   dir: string, // El directorio donde va realizar un cwd para ejecutar el comando
   isListo?: (linea: string) => void,
 ): void => {
-  const proceso = spawn(cmd, agrs, { cwd: dir });
-
+  const proceso = spawn(cmd, agrs, {
+  cwd: dir,
+  shell: true,
+});
   proceso.stdout.on("data", (data: Buffer) => {
     const colorInfo = Colores[prefijo.toUpperCase() as keyof typeof Colores];
 
@@ -92,7 +94,7 @@ correrProcesos(
   FRONT_DIR,
   (linea: string): void => {
     if (linea.includes("Local:"))
-      abrirNavegador(`http:localhost:${FRONT_PORT}`);
+      abrirNavegador(`http://localhost:${FRONT_PORT}`);
   },
 );
 
