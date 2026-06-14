@@ -13,11 +13,17 @@ public class AuthService
 {
     private readonly FireBaseService _firebaseService;
     private readonly IConfiguration _configuration;
+    private readonly EmailService _emailService;
 
-    public AuthService(FireBaseService firebaseService, IConfiguration configuration)
+    public AuthService(
+        FireBaseService firebaseService,
+        IConfiguration configuration,
+        EmailService es
+    )
     {
         _firebaseService = firebaseService;
         _configuration = configuration;
+        _emailService = es;
     }
 
     public async Task<User> Register(RegisterDto dto)
@@ -79,6 +85,75 @@ public class AuthService
             throw new Exception("La contraseña es incorrecta, intentalo de nuevo");
 
         return GenerateToken(user);
+    }
+
+    public async Task ForgotPassword(ForgetPasswordDto dto)
+    {
+        var collection = _firebaseService.GetCollection("users");
+        var snapshot = await collection.WhereEqualTo("Email", dto.Email).GetSnapshotAsync();
+
+        if (snapshot.Count == 0)
+            throw new Exception("No existe ningun usario con esa credencial");
+
+        var doc = snapshot.Documents[0];
+        var userId = doc.Id;
+
+        var token = Guid.NewGuid().ToString();
+        var resetCollection = _firebaseService.GetCollection("password_resets");
+
+        await resetCollection
+            .Document(token)
+            .SetAsync(
+                new Dictionary<string, object>
+                {
+                    { "Token", token },
+                    { "UserId", userId },
+                    { "ExpiresAt", DateTime.UtcNow.AddHours(1) },
+                    { "Used", false },
+                }
+            );
+
+        var resetLink = $"http://localhost:4200/reset-password?token={token}";
+        await _emailService.SendEmailAsync(
+            dto.Email,
+            "Recuperación de contraseña",
+            $"""
+            <h2>Recuperación de contraseña</h2>
+            <p>Hacé clic <a href='{resetLink}'>acá</a> para restablecer tu contraseña.</p>
+            <p>Este enlace expira en 1 hora.</p>
+            """
+        );
+    }
+
+    public async Task ResetPassword(ResetPasswordDto dto)
+    {
+        var resetsCollection = _firebaseService.GetCollection("password_resets");
+        var resetDoc = await resetsCollection.Document(dto.Token).GetSnapshotAsync();
+
+        if (!resetDoc.Exists)
+            throw new Exception("Token inválido");
+
+        var data = resetDoc.ToDictionary();
+
+        if ((bool)data["Used"])
+            throw new Exception("El token ya fue usado");
+
+        var expiresAt = ((Timestamp)data["ExpiresAt"]).ToDateTime();
+        if (expiresAt < DateTime.UtcNow)
+            throw new Exception("El token ha expirado");
+
+        var userId = data["UserId"].ToString()!;
+
+        var usersCollection = _firebaseService.GetCollection("users");
+        var userDoc = await usersCollection.Document(userId).GetSnapshotAsync();
+
+        if (!userDoc.Exists)
+            throw new Exception("Usuario no encontrado");
+
+        var newHash = HashPasword(dto.NewPassword);
+        await userDoc.Reference.UpdateAsync("PasswordHash", newHash);
+
+        await resetDoc.Reference.UpdateAsync("Used", true);
     }
 
     // METODOS QUE NOS DIO EL INGENIERO
