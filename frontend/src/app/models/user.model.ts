@@ -9,3 +9,12 @@ export interface IRegisterResponse {
   email: string;
   role: string;
 }
+
+export interface IForgotPasswordRequest {
+  email: string;
+}
+
+export interface IResetPasswordRequest {
+  token: string;
+  newPassword: string;
+}

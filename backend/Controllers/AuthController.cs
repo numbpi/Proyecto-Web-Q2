@@ -60,4 +60,34 @@ public class AuthController(AuthService authService) : ControllerBase
             return BadRequest(new { message = e.Message });
         }
     }
+
+    // POST /api/Auth/forgot-password
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgetPasswordDto dto)
+    {
+        try
+        {
+            await _authService.ForgotPassword(dto);
+            return Ok(new { message = "Si el correo existe, recibirás un enlace de recuperación" });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
+
+    // POST /api/Auth/reset-password
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+    {
+        try
+        {
+            await _authService.ResetPassword(dto);
+            return Ok(new { message = "Contraseña restablecida correctamente" });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
 }
