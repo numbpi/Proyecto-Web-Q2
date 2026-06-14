@@ -15,6 +15,12 @@ export class AuthService {
   register = (fullName: string, email: string, password: string): Observable<IRegisterResponse> =>
     this.http.post<IRegisterResponse>(`${this.apiURL}/register`, { fullName, email, password });
 
+  forgotPassword = (email: string): Observable<{ message: string }> =>
+    this.http.post<{ message: string }>(`${this.apiURL}/forgot-password`, { email });
+
+  resetPassword = (token: string, newPassword: string): Observable<{ message: string }> =>
+    this.http.post<{ message: string }>(`${this.apiURL}/reset-password`, { token, newPassword });
+
   /**
    * @param {string} email - correo electronico del usuario
    * @param {string} password - contraseña del usuario
