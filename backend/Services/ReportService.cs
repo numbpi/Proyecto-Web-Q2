@@ -30,10 +30,14 @@ public class ReportService
         };
 
         var filters = new Dictionary<string, object>();
-        if (dto.From.HasValue) filters["From"] = dto.From.Value;
-        if (dto.To.HasValue) filters["To"] = dto.To.Value;
-        if (!string.IsNullOrEmpty(dto.MediatorId)) filters["MediatorId"] = dto.MediatorId;
-        if (!string.IsNullOrEmpty(dto.Status)) filters["Status"] = dto.Status;
+        if (dto.From.HasValue)
+            filters["From"] = dto.From.Value;
+        if (dto.To.HasValue)
+            filters["To"] = dto.To.Value;
+        if (!string.IsNullOrEmpty(dto.MediatorId))
+            filters["MediatorId"] = dto.MediatorId;
+        if (!string.IsNullOrEmpty(dto.Status))
+            filters["Status"] = dto.Status;
 
         var reportId = Guid.NewGuid().ToString();
 
@@ -47,7 +51,10 @@ public class ReportService
             { "CreatedAt", DateTime.UtcNow },
         };
 
-        await _fireBaseService.GetCollection(collectionName).Document(reportId).SetAsync(reportData);
+        await _fireBaseService
+            .GetCollection(collectionName)
+            .Document(reportId)
+            .SetAsync(reportData);
 
         var snapshot = await _fireBaseService
             .GetCollection(collectionName)
@@ -91,9 +98,7 @@ public class ReportService
     /// </summary>
     public async Task<List<Report>> GetAllAsync()
     {
-        var snapshot = await _fireBaseService
-            .GetCollection(collectionName)
-            .GetSnapshotAsync();
+        var snapshot = await _fireBaseService.GetCollection(collectionName).GetSnapshotAsync();
 
         return snapshot.Documents.Select(MapToReport).ToList();
     }
@@ -117,8 +122,7 @@ public class ReportService
 
         var list = docs.ToList();
 
-        var byStatus = list
-            .GroupBy(d => d.GetValue<string>("Status"))
+        var byStatus = list.GroupBy(d => d.GetValue<string>("Status"))
             .ToDictionary(g => g.Key, g => (object)g.Count());
 
         return new Dictionary<string, object>
@@ -128,7 +132,9 @@ public class ReportService
         };
     }
 
-    private async Task<Dictionary<string, object>> BuildAgreementsReportDataAsync(GenerateReportDto dto)
+    private async Task<Dictionary<string, object>> BuildAgreementsReportDataAsync(
+        GenerateReportDto dto
+    )
     {
         var snapshot = await _fireBaseService.GetCollection("agreements").GetSnapshotAsync();
         var docs = snapshot.Documents.AsEnumerable();
@@ -143,7 +149,8 @@ public class ReportService
         var list = docs.ToList();
 
         var formalized = list.Count(d =>
-            d.ContainsField("FormalizedAt") && d.GetValue<DateTime?>("FormalizedAt") != null);
+            d.ContainsField("FormalizedAt") && d.GetValue<DateTime?>("FormalizedAt") != null
+        );
 
         return new Dictionary<string, object>
         {
@@ -153,7 +160,9 @@ public class ReportService
         };
     }
 
-    private async Task<Dictionary<string, object>> BuildSessionsReportDataAsync(GenerateReportDto dto)
+    private async Task<Dictionary<string, object>> BuildSessionsReportDataAsync(
+        GenerateReportDto dto
+    )
     {
         var snapshot = await _fireBaseService.GetCollection("sessions").GetSnapshotAsync();
         var docs = snapshot.Documents.AsEnumerable();
@@ -169,8 +178,7 @@ public class ReportService
 
         var list = docs.ToList();
 
-        var byStatus = list
-            .GroupBy(d => d.GetValue<string>("Status"))
+        var byStatus = list.GroupBy(d => d.GetValue<string>("Status"))
             .ToDictionary(g => g.Key, g => (object)g.Count());
 
         return new Dictionary<string, object>
@@ -180,25 +188,31 @@ public class ReportService
         };
     }
 
-    private async Task<Dictionary<string, object>> BuildMediatorsReportDataAsync(GenerateReportDto dto)
+    private async Task<Dictionary<string, object>> BuildMediatorsReportDataAsync(
+        GenerateReportDto dto
+    )
     {
-        var mediatorsSnapshot = await _fireBaseService.GetCollection("mediators").GetSnapshotAsync();
+        var mediatorsSnapshot = await _fireBaseService
+            .GetCollection("mediators")
+            .GetSnapshotAsync();
         var casesSnapshot = await _fireBaseService.GetCollection("cases").GetSnapshotAsync();
 
-        var casesPerMediator = casesSnapshot.Documents
-            .GroupBy(d => d.ContainsField("MediatorId")
-                ? d.GetValue<string>("MediatorId")
-                : d.ContainsField("MediadorId")
-                    ? d.GetValue<string>("MediadorId")
-                    : null)
+        var casesPerMediator = casesSnapshot
+            .Documents.GroupBy(d =>
+                d.ContainsField("MediatorId") ? d.GetValue<string>("MediatorId")
+                : d.ContainsField("MediadorId") ? d.GetValue<string>("MediadorId")
+                : null
+            )
             .Where(g => g.Key != null)
             .ToDictionary(g => g.Key!, g => g.Count());
 
-        var result = mediatorsSnapshot.Documents.Select(m => new Dictionary<string, object>
-        {
-            { "MediatorId", m.Id },
-            { "CasosAsignados", casesPerMediator.GetValueOrDefault(m.Id, 0) },
-        }).ToList<object>();
+        var result = mediatorsSnapshot
+            .Documents.Select(m => new Dictionary<string, object>
+            {
+                { "MediatorId", m.Id },
+                { "CasosAsignados", casesPerMediator.GetValueOrDefault(m.Id, 0) },
+            })
+            .ToList<object>();
 
         return new Dictionary<string, object>
         {
