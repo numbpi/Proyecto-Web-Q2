@@ -25,6 +25,7 @@ builder.Services.AddScoped<ExperimentService>();
 builder.Services.AddScoped<ReportService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddControllers();
 

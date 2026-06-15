@@ -1,8 +1,20 @@
+import chalk, { type ChalkInstance } from "chalk";
 import { exec, spawn } from "node:child_process";
 import { platform } from "node:os";
 import { resolve } from "node:path";
 
 type OS = NodeJS.Platform;
+
+interface IColor {
+  nombre: string | null;
+  color: ChalkInstance;
+}
+
+const Colores = {
+  DOTNET: { nombre: "DOTNET", color: chalk.hex("#512BD4") },
+  ANGULAR: { nombre: "ANGULAR", color: chalk.hex("#dd27bb") },
+  ERROR: { nombre: null, color: chalk.hex("#FF0000") },
+} satisfies Record<string, IColor>;
 
 interface ISistemas {
   sistema: OS; // Seria el sistema operativo
@@ -47,20 +59,33 @@ const correrProcesos = (
   dir: string, // El directorio donde va realizar un cwd para ejecutar el comando
   isListo?: (linea: string) => void,
 ): void => {
-  const proceso = spawn(cmd, agrs, { cwd: dir });
-
+  const proceso = spawn(cmd, agrs, {
+  cwd: dir,
+  shell: true,
+});
   proceso.stdout.on("data", (data: Buffer) => {
-    console.log(`NORMAL: [${prefijo.toUpperCase()}] ${data.toString()}`);
+    const colorInfo = Colores[prefijo.toUpperCase() as keyof typeof Colores];
+
+    console.log(
+      colorInfo.color(`[${prefijo.toUpperCase()}] -> ${data.toString()}`),
+    );
+
     if (isListo) isListo(data.toString());
   });
 
   proceso.stderr.on("data", (data: Buffer) => {
-    console.error(`ERROR: ${prefijo.toUpperCase()} ${data.toString()}`);
+    console.error(
+      Colores.ERROR.color(
+        `[ERROR] -> ${prefijo.toUpperCase()} ${data.toString()}`,
+      ),
+    );
   });
 };
 
 const FRONT_PORT = 4200;
 // const BACK_PORT = 5174;
+
+correrProcesos("dotnet", ["watch", "run"], "dotnet", BACK_DIR);
 
 correrProcesos(
   "pnpm",
@@ -69,10 +94,8 @@ correrProcesos(
   FRONT_DIR,
   (linea: string): void => {
     if (linea.includes("Local:"))
-      abrirNavegador(`http:localhost:${FRONT_PORT}`);
+      abrirNavegador(`http://localhost:${FRONT_PORT}`);
   },
 );
-
-correrProcesos("dotnet", ["watch", "run"], "dotnet", BACK_DIR);
 
 // TODO: Investigar como abrir una nueva pestaña para que no choquen lo de Angular y Dontet con Scalar en el navegador xd

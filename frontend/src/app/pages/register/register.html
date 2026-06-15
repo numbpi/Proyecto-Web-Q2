@@ -1,0 +1,42 @@
+<div class="register-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title> Registrar Usuario </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- Nombre Completo -->
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre Completo</mat-label>
+        <input matInput type="text" [(ngModel)]="fullName" placeholder="Cristiano Ronado" />
+      </mat-form-field>
+
+      <!-- Correo Electronico -->
+      <mat-form-field appearance="outline">
+        <mat-label>Correo Electronico</mat-label>
+        <input matInput type="email" [(ngModel)]="email" placeholder="cr7@goat.com" />
+      </mat-form-field>
+
+      <!-- Contraseña -->
+      <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="password" placeholder="*********" />
+      </mat-form-field>
+      @if (errorMessage) {
+        <p class="error">{{ errorMessage }}</p>
+      }
+    </mat-card-content>
+
+    <!-- Buton para registrarse -->
+    <div class="botones-register">
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="onRegister()" [disabled]="isRegister">
+          {{ isRegister ? 'Verificando' : 'Registrar' }}
+        </button>
+      </mat-card-actions>
+      <!-- Buton para ir al Login -->
+      <mat-card-actions>
+        <button mat-raised-button color="primary" routerLink="/login">Iniciar Sesion</button>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>
