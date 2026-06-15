@@ -6,7 +6,7 @@ obj/
 Config/*
 !Config/.gitkeep
 # appsettings.json
-# appsettings.Development.json
+appsettings.Development.json
 *.http
 # IDE
 .vs/

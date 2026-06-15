@@ -18,3 +18,10 @@ export interface IResetPasswordRequest {
   token: string;
   newPassword: string;
 }
+
+export interface ICurrentUser {
+  id: string;
+  fullName: string;
+  email: string;
+  role: string;
+}
