@@ -4,10 +4,10 @@
 public class GenerateReportDto
 {
     public string Type { get; set; } = string.Empty; // "casos", "acuerdos", "sesiones", "mediadores"
-    public DateTime? From { get; set; }              // Fecha inicio (opcional)
-    public DateTime? To { get; set; }                // Fecha fin (opcional)
-    public string? MediatorId { get; set; }          // Filtrar por mediador (opcional)
-    public string? Status { get; set; }              // Filtrar por estado (opcional)
+    public DateTime? From { get; set; } // Fecha inicio (opcional)
+    public DateTime? To { get; set; } // Fecha fin (opcional)
+    public string? MediatorId { get; set; } // Filtrar por mediador (opcional)
+    public string? Status { get; set; } // Filtrar por estado (opcional)
 }
 
 // DTO de respuesta de un reporte

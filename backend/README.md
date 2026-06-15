@@ -32,4 +32,5 @@ dotnet restore
 | `Microsoft.AspNetCore.Authentication.JwtBearer` | `10.0.8` |
 | `Microsoft.AspNetCore.OpenApi` | `10.0.7` |
 | `Scalar.AspNetCore` | `2.14.11` |
+| `MailKit` | `4.17.0` |
 

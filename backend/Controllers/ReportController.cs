@@ -1,8 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Proyecto_Web_Q2.DTOs;
 using Proyecto_Web_Q2.Services;
-using System.Security.Claims;
 
 namespace Proyecto_Web_Q2.Controllers;
 
