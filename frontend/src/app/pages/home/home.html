@@ -42,6 +42,13 @@
             <mat-card-title>Reportes</mat-card-title>
           </mat-card-header>
         </mat-card>
+
+        <mat-card routerLink="/admin/users">
+    <mat-card-header>
+        <mat-icon mat-card-avatar>person</mat-icon>
+        <mat-card-title>Usuarios</mat-card-title>
+    </mat-card-header>
+</mat-card> 
       }
       @if (userRole === 'MEDIADOR') {
         <mat-card routerLink="/mediator/cases">
