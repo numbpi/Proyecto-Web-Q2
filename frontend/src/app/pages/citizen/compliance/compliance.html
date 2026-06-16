@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="header">
+    <div class="header-left">
+      <button mat-icon-button routerLink="/home">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Cumplimiento de Acuerdos</h1>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading">
+      <p>Cargando…</p>
+    </div>
+  } @else if (agreements.length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">verified</mat-icon>
+      <p>No tenés acuerdos formalizados.</p>
+      <p class="empty-hint">
+        Acá podés reportar si la contraparte cumplió o no cada punto del acuerdo.
+      </p>
+    </div>
+  } @else {
+    @if (successMessage) {
+      <p class="success-msg">{{ successMessage }}</p>
+    }
+    @if (errorMessage) {
+      <p class="error-msg">{{ errorMessage }}</p>
+    }
+
+    <div class="compliance-list">
+      @for (item of agreements; track item.caso.id) {
+        <mat-card class="compliance-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>verified</mat-icon>
+            <mat-card-title>{{ item.caso.conflictType }}</mat-card-title>
+            <mat-card-subtitle>
+              vs {{ item.caso.respondentName }}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="formalized-date">
+              Formalizado el
+              {{ item.acuerdo.formalizedAt | date : 'longDate' }}
+            </p>
+
+            <div class="points-list">
+              @for (punto of item.acuerdo.points; track $index) {
+                <div class="point-item">
+                  <div class="point-header">
+                    <strong>{{ $index + 1 }}.</strong>
+                    {{ punto.description }}
+                    <span class="deadline">
+                      (Plazo: {{ punto.deadline | date : 'shortDate' }})
+                    </span>
+                  </div>
+
+                  <div class="point-status">
+                    @if (punto.complianceStatus === 'pendiente') {
+                      <span class="status-label">¿Cumplió?</span>
+                      <button
+                        mat-raised-button
+                        color="primary"
+                        (click)="onReportCompliance(item.acuerdo, $index, 'cumplido')"
+                        [disabled]="reportingId === item.acuerdo.id && reportingPoint === $index"
+                      >
+                        Sí, cumplió
+                      </button>
+                      <button
+                        mat-raised-button
+                        color="warn"
+                        (click)="onReportCompliance(item.acuerdo, $index, 'incumplido')"
+                        [disabled]="reportingId === item.acuerdo.id && reportingPoint === $index"
+                      >
+                        No cumplió
+                      </button>
+                    } @else {
+                      <mat-chip
+                        [color]="punto.complianceStatus === 'cumplido' ? 'primary' : 'warn'"
+                        highlighted
+                      >
+                        {{ punto.complianceStatus }}
+                      </mat-chip>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

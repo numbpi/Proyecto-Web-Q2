@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { ICurrentUser } from '../../models/user.model';
@@ -31,7 +31,7 @@ export class AdminUsers implements OnInit {
   // Sirve para mostrar un mensaje si ocurre un error
   errorMessage = '';
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private cdr: ChangeDetectorRef ) {}
 
   // Se ejecuta automáticamente cuando se abre /admin/users
   ngOnInit(): void {
@@ -48,6 +48,7 @@ export class AdminUsers implements OnInit {
 
       this.users = users;
       this.isLoading = false;
+      this.cdr.detectChanges()
     },
     error: (error: any) => {
       console.error('Error cargando usuarios:', error);
