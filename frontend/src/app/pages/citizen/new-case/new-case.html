@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="header">
+    <div class="header-left">
+      <button mat-icon-button routerLink="/home">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Reportar Conflicto</h1>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <!-- Buscar denunciado -->
+      <div class="search-section">
+        <h3>¿A quién denunciás?</h3>
+        <div class="search-row">
+          <mat-form-field appearance="outline" class="search-input">
+            <mat-label>Email del denunciado</mat-label>
+            <input
+              matInput
+              [(ngModel)]="respondentEmail"
+              placeholder="ejemplo@correo.com"
+            />
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSearchRespondent()"
+            [disabled]="isSearching"
+          >
+            <mat-icon>search</mat-icon>
+            Buscar
+          </button>
+        </div>
+
+        @if (isSearching) {
+          <p class="searching">Buscando…</p>
+        }
+
+        @if (searchErrorMessage) {
+          <p class="error-msg">{{ searchErrorMessage }}</p>
+        }
+
+        @if (respondent) {
+          <div class="respondent-found">
+            <mat-icon>person</mat-icon>
+            <span>{{ respondent.fullName }} ({{ respondent.email }})</span>
+          </div>
+        }
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Tipo de conflicto -->
+      <div class="form-section">
+        <h3>Detalles del conflicto</h3>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tipo de conflicto</mat-label>
+          <mat-select [(ngModel)]="conflictType">
+            @for (tipo of conflictTypes; track tipo) {
+              <mat-option [value]="tipo">{{ tipo }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="description"
+            rows="4"
+            placeholder="Describí el conflicto lo más detallado posible"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Dirección</mat-label>
+          <input
+            matInput
+            [(ngModel)]="address"
+            placeholder="Colonia, bloque, casa"
+          />
+        </mat-form-field>
+      </div>
+
+      @if (errorMessage) {
+        <p class="error-msg">{{ errorMessage }}</p>
+      }
+
+      @if (successMessage) {
+        <p class="success-msg">{{ successMessage }}</p>
+      }
+
+      <div class="actions">
+        <button mat-stroked-button routerLink="/citizen/my-cases">
+          Cancelar
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="isLoading"
+        >
+          @if (isLoading) {
+            Enviando…
+          } @else {
+            Reportar Conflicto
+          }
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

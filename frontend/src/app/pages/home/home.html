@@ -1,4 +1,101 @@
 <div class="home-container">
-  <h1>{{ userName }}</h1>
-  <p>{{ userRole }}</p>
+  <mat-toolbar color="primary" class="centered-toolbar">
+    <span>{{ userName }}</span>
+    <div class="centered-toolbar-abajo">
+      <mat-chip>{{ userRole }}</mat-chip>
+      <button mat-stroked-button color="warn" (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar Sesión
+      </button>
+    </div>
+  </mat-toolbar>
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando…</p>
+    </div>
+  } @else {
+    <div class="card-grid">
+      @if (userRole === 'ADMINISTRADOR') {
+        <mat-card routerLink="/admin/dashboard">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>dashboard</mat-icon>
+            <mat-card-title>Dashboard</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/admin/mediators">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>people</mat-icon>
+            <mat-card-title>Mediadores</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/admin/cases">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>folder</mat-icon>
+            <mat-card-title>Casos</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/admin/reports">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>assessment</mat-icon>
+            <mat-card-title>Reportes</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+
+        <mat-card routerLink="/admin/users">
+    <mat-card-header>
+        <mat-icon mat-card-avatar>person</mat-icon>
+        <mat-card-title>Usuarios</mat-card-title>
+    </mat-card-header>
+</mat-card> 
+      }
+      @if (userRole === 'MEDIADOR') {
+        <mat-card routerLink="/mediator/cases">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>work</mat-icon>
+            <mat-card-title>Mis Casos</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/mediator/sessions">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>event</mat-icon>
+            <mat-card-title>Programar Sesión</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/mediator/agreements">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>description</mat-icon>
+            <mat-card-title>Redactar Acuerdo</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+      }
+      @if (userRole === 'CIUDADANO') {
+        <mat-card routerLink="/citizen/new-case">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>add_circle</mat-icon>
+            <mat-card-title>Reportar Conflicto</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/citizen/my-cases">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>list_alt</mat-icon>
+            <mat-card-title>Mis Casos</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/citizen/agreements">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>check_circle</mat-icon>
+            <mat-card-title>Confirmar Acuerdo</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <mat-card routerLink="/citizen/compliance">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>verified</mat-icon>
+            <mat-card-title>Cumplimiento</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+      }
+    </div>
+  }
 </div>

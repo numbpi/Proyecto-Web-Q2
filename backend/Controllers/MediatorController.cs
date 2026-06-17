@@ -10,6 +10,7 @@ namespace Proyecto_Web_Q2.Controllers;
 [Authorize]
 public class MediatorController : ControllerBase
 {
+    // Servicio que tiene la logica de los mediadores
     private readonly MediatorService _mediatorService;
 
     public MediatorController(MediatorService mediatorService)
@@ -17,6 +18,7 @@ public class MediatorController : ControllerBase
         _mediatorService = mediatorService;
     }
 
+    // POST api/Mediator - Crea un mediador nuevo (solo admin)
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMediatorDto dto)
     {
@@ -24,6 +26,7 @@ public class MediatorController : ControllerBase
         return Ok(mediator);
     }
 
+    // GET api/Mediator - Trae todos los mediadores registrados
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -31,6 +34,7 @@ public class MediatorController : ControllerBase
         return Ok(mediators);
     }
 
+    // GET api/Mediator/{id} - Trae un mediador por su ID
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
@@ -45,6 +49,7 @@ public class MediatorController : ControllerBase
         }
     }
 
+    // PUT api/Mediator/{id} - Actualiza los datos de un mediador
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateMediatorDto dto)
     {
@@ -59,6 +64,7 @@ public class MediatorController : ControllerBase
         }
     }
 
+    // DELETE api/Mediator/{id} - Desactiva un mediador (no lo borra, solo lo desactiva)
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deactivate(string id)
     {

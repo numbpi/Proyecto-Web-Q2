@@ -47,4 +47,31 @@ public class UserController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    // Este endpoint llama al método GetAllUsersAsync() del UserService.
+    // Su función es obtener todos los usuarios registrados en Firebase
+    // y devolverlos al frontend para poder mostrarlos en la vista
+    // de administración de usuarios (/admin/users).
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        try
+        {
+            var users = await _userService.GetAllUsersAsync();
+
+            return Ok(users.Select(user => new
+            {
+                user.Id,
+                user.FullName,
+                user.Email,
+                user.Role,
+                user.CreatedAt
+            }));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }

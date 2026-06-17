@@ -9,8 +9,10 @@ namespace Proyecto_Web_Q2.Controllers;
 [Authorize]
 public class DashboardController(DashboardService dbS) : ControllerBase
 {
+    // Servicio que tiene la logica del dashboard
     private readonly DashboardService _dashboardService = dbS;
 
+    // GET api/Dashboard - Trae los datos del dashboard (totales de casos, mediadores, etc.)
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
