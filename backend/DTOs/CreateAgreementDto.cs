@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Web_Q2.DTOs;
 
+// Datos que se mandan al crear un acuerdo
 public class CreateAgreementDto
 {
     [Required]
@@ -15,7 +16,7 @@ public class CreateAgreementDto
     public List<CreateAgreementPointDto> Points { get; set; } = [];
 }
 
-// TODO: Le debo consultar al Ingeniero si muevo esto aun Dto aparte o lo dejo aca insanamente
+// Datos de un punto del acuerdo (cada compromiso que se toma)
 public class CreateAgreementPointDto
 {
     [Required]
