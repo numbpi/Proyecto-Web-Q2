@@ -105,6 +105,7 @@ public class ReportService
 
     // ─── Builders privados ────────────────────────────────────────────────────
 
+    // Arma los datos del reporte de casos (total y por estado)
     private async Task<Dictionary<string, object>> BuildCasesReportDataAsync(GenerateReportDto dto)
     {
         var snapshot = await _fireBaseService.GetCollection("cases").GetSnapshotAsync();
@@ -132,6 +133,7 @@ public class ReportService
         };
     }
 
+    // Arma los datos del reporte de acuerdos (total, formalizados, pendientes)
     private async Task<Dictionary<string, object>> BuildAgreementsReportDataAsync(
         GenerateReportDto dto
     )
@@ -160,6 +162,7 @@ public class ReportService
         };
     }
 
+    // Arma los datos del reporte de sesiones (total y por estado)
     private async Task<Dictionary<string, object>> BuildSessionsReportDataAsync(
         GenerateReportDto dto
     )
@@ -188,6 +191,7 @@ public class ReportService
         };
     }
 
+    // Arma los datos del reporte de mediadores (total y casos asignados por mediador)
     private async Task<Dictionary<string, object>> BuildMediatorsReportDataAsync(
         GenerateReportDto dto
     )
@@ -223,6 +227,7 @@ public class ReportService
 
     // ─── Mapper ───────────────────────────────────────────────────────────────
 
+    // Convierte los datos de Firebase a un objeto Report
     private static Report MapToReport(DocumentSnapshot doc)
     {
         return new Report

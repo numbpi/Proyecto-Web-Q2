@@ -28,6 +28,7 @@ export class Login {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  sucessMessage: string = '';
   isLoading: boolean = false;
 
   constructor(
@@ -42,9 +43,11 @@ export class Login {
 
     this.authService.login(this.email, this.password).subscribe({
       next: (res: ILoginResponse): void => {
+        this.sucessMessage = 'Credenciales Validas..Ingresando a la App';
+        this.cdr.detectChanges();
         this.authService.saveToken(res.token);
         console.log('Login funcionando Bien');
-        this.router.navigate(['/home']);
+        setTimeout(() => this.router.navigate(['/home']), 2000);
       },
 
       error: (): void => {

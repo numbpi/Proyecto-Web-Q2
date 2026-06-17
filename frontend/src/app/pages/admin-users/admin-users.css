@@ -1,0 +1,51 @@
+.admin-users-container {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: #fff7fb;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  margin-bottom: 8px;
+  font-size: 32px;
+}
+
+.header p {
+  color: #666;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.user-card {
+  padding: 16px;
+  border-radius: 16px;
+}
+
+mat-card-content {
+  margin-top: 16px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 18px;
+}
+
+.error {
+  color: #c62828;
+}

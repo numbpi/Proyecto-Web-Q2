@@ -6,9 +6,12 @@ namespace Proyecto_Web_Q2.Services;
 
 public class AgreementService(FireBaseService fireBase)
 {
+    // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService = fireBase;
+    // Nombre de la coleccion en Firestore
     private readonly string collectionName = "agreements";
 
+    // Crea un acuerdo nuevo en Firebase (solo mediador)
     public async Task<Agreement> CreateAsync(CreateAgreementDto dto, string userId)
     {
         var caseDoc = await _fireBaseService
@@ -76,6 +79,7 @@ public class AgreementService(FireBaseService fireBase)
         );
     }
 
+    // Confirma o rechaza un acuerdo. Si ambas partes confirman, se formaliza automaticamente
     public async Task<Agreement> ConfirmAsync(ConfirmAgreementDto dto, string userId)
     {
         var agreementDoc = await _fireBaseService
@@ -141,6 +145,7 @@ public class AgreementService(FireBaseService fireBase)
         return MapToAgreement(finalDoc);
     }
 
+    // Busca el acuerdo de un caso por su ID
     public async Task<Agreement?> GetByCaseIdAsync(string caseId)
     {
         var snapshot = await _fireBaseService
@@ -154,6 +159,7 @@ public class AgreementService(FireBaseService fireBase)
         return MapToAgreement(snapshot.Documents[0]);
     }
 
+    // Reporta si un punto del acuerdo se cumplio o no (solo las partes del caso)
     public async Task<Agreement> ReportComplianceAsync(
         string agreementId,
         int pointIndex,
@@ -203,6 +209,7 @@ public class AgreementService(FireBaseService fireBase)
         return MapToAgreement(updatedDoc);
     }
 
+    // Convierte los datos de Firebase a un objeto Agreement
     private static Agreement MapToAgreement(DocumentSnapshot doc)
     {
         return new Agreement

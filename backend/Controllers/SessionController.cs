@@ -11,6 +11,7 @@ namespace Proyecto_Web_Q2.Controllers;
 [Authorize]
 public class SessionController : ControllerBase
 {
+    // Servicio que tiene la logica de las sesiones de mediacion
     private readonly SessionService _sessionService;
 
     public SessionController(SessionService sessionService)
@@ -18,12 +19,14 @@ public class SessionController : ControllerBase
         _sessionService = sessionService;
     }
 
+    // POST api/Session - Crea una sesion de mediacion (solo mediador)
     [HttpPost]
     [Authorize(Roles = "mediator")]
     public async Task<IActionResult> Create([FromBody] CreateSessionDto dto)
     {
         try
         {
+            // Saca el ID del usuario desde el token JWT
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -41,6 +44,7 @@ public class SessionController : ControllerBase
         }
     }
 
+    // GET api/Session/case/{caseId} - Trae las sesiones de un caso especifico
     [HttpGet("case/{caseId}")]
     public async Task<IActionResult> GetByCaseId(string caseId)
     {
@@ -56,12 +60,14 @@ public class SessionController : ControllerBase
         }
     }
 
+    // GET api/Session/my - Trae las sesiones del mediador que esta logueado
     [HttpGet("my")]
     [Authorize(Roles = "mediator")]
     public async Task<IActionResult> GetMySessions()
     {
         try
         {
+            // Saca el ID del usuario desde el token JWT
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -79,6 +85,7 @@ public class SessionController : ControllerBase
         }
     }
 
+    // PUT api/Session/{sessionId}/status - Actualiza el estado de una sesion (solo mediador)
     [HttpPut("{sessionId}/status")]
     [Authorize(Roles = "mediator")]
     public async Task<IActionResult> UpdateStatus(
@@ -88,6 +95,7 @@ public class SessionController : ControllerBase
     {
         try
         {
+            // Saca el ID del usuario desde el token JWT
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrEmpty(userId))

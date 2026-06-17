@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Web_Q2.DTOs;
 
+// Datos para confirmar o rechazar un acuerdo
 public class ConfirmAgreementDto
 {
     [Required]
