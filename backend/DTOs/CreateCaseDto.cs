@@ -3,6 +3,7 @@ using Proyecto_Web_Q2.Models;
 
 namespace Proyecto_Web_Q2.DTOs;
 
+// Datos que se mandan al crear un caso nuevo
 public class CreateCaseDto
 {
     [Required]
