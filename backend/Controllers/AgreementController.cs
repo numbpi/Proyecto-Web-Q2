@@ -11,6 +11,7 @@ namespace Proyecto_Web_Q2.Controllers;
 [Authorize]
 public class AgreementController : ControllerBase
 {
+    // Servicio que tiene la logica de los acuerdos
     private readonly AgreementService _agreementService;
 
     public AgreementController(AgreementService agreementService)
@@ -18,12 +19,14 @@ public class AgreementController : ControllerBase
         _agreementService = agreementService;
     }
 
+    // POST api/Agreement - Crea un acuerdo (solo mediador)
     [HttpPost]
     [Authorize(Roles = "mediator")]
     public async Task<IActionResult> Create([FromBody] CreateAgreementDto dto)
     {
         try
         {
+            // Saca el ID del usuario desde el token JWT
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
@@ -39,6 +42,7 @@ public class AgreementController : ControllerBase
         }
     }
 
+    // GET api/Agreement/case/{caseId} - Trae el acuerdo de un caso especifico
     [HttpGet("case/{caseId}")]
     public async Task<IActionResult> GetByCaseId(string caseId)
     {
@@ -57,11 +61,13 @@ public class AgreementController : ControllerBase
         }
     }
 
+    // PUT api/Agreement/{agreementId}/confirm - Confirma o rechaza un acuerdo
     [HttpPut("{agreementId}/confirm")]
     public async Task<IActionResult> Confirm(string agreementId, [FromBody] ConfirmAgreementDto dto)
     {
         try
         {
+            // Saca el ID del usuario desde el token JWT
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
@@ -79,6 +85,7 @@ public class AgreementController : ControllerBase
         }
     }
 
+    // PUT api/Agreement/{agreementId}/compliance - Reporta si se cumplio o no un punto del acuerdo
     [HttpPut("{agreementId}/compliance")]
     public async Task<IActionResult> ReportCompliance(
         string agreementId,
@@ -87,6 +94,7 @@ public class AgreementController : ControllerBase
     {
         try
         {
+            // Saca el ID del usuario desde el token JWT
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
