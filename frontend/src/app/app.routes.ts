@@ -4,6 +4,7 @@ import { Register } from './pages/register/register';
 import { Home } from './pages/home/home';
 import { ForgotPassword } from './pages/forgot-password/forgot-password';
 import { ResetPassword } from './pages/reset-password/reset-password';
+import { Landing } from './pages/landing/landing';
 
 import { AdminUsers } from './pages/admin-users/admin-users';
 import { AdminMediators } from './pages/admin-mediators/admin-mediators';
@@ -17,6 +18,10 @@ import { Agreements } from './pages/citizen/agreements/agreements';
 import { Compliance } from './pages/citizen/compliance/compliance';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: Landing,
+  },
   {
     path: 'login',
     component: Login,
@@ -79,8 +84,7 @@ export const routes: Routes = [
   },
 
   {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full',
+    path: '**',
+    redirectTo: '',
   },
 ];

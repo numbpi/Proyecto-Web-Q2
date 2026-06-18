@@ -3,7 +3,6 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -21,7 +20,6 @@ const Roles: Record<string, string> = {
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatToolbarModule,
     MatIconModule,
     MatChipsModule,
     MatProgressSpinnerModule,
