@@ -19,23 +19,16 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Correo</mat-label>
-        <input matInput [(ngModel)]="newMediator.email">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Teléfono</mat-label>
-        <input matInput [(ngModel)]="newMediator.phone">
+        <mat-label>Zona</mat-label>
+        <input matInput [(ngModel)]="newMediator.zone" placeholder="Ej: Colonia Palmira">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Especialidad</mat-label>
-        <input matInput [(ngModel)]="newMediator.specialty">
+        <input matInput [(ngModel)]="newMediator.specialty" placeholder="Ej: Ruido, Mascotas">
       </mat-form-field>
 
     </mat-card-content>
-
-    
 
     <mat-card-actions>
       <button mat-raised-button color="primary"
@@ -46,11 +39,11 @@
 
   </mat-card>
 
-<h2 class="section-title">Mediadores Disponibles</h2>
+  <h2 class="section-title">Mediadores Disponibles</h2>
 
-<p class="section-subtitle">
-  Lista de mediadores registrados actualmente en el sistema.
-</p>
+  <p class="section-subtitle">
+    Lista de mediadores registrados actualmente en el sistema.
+  </p>
 
   <!-- Mensajes -->
   <p *ngIf="successMessage" class="success">
@@ -75,7 +68,7 @@
         </mat-card-title>
 
         <mat-card-subtitle>
-          {{ mediator.email }}
+          {{ mediator.zone }}
         </mat-card-subtitle>
 
       </mat-card-header>
@@ -83,13 +76,13 @@
       <mat-card-content>
 
         <p>
-          <strong>Teléfono:</strong>
-          {{ mediator.phone }}
+          <strong>Especialidad:</strong>
+          {{ mediator.specialty }}
         </p>
 
         <p>
-          <strong>Especialidad:</strong>
-          {{ mediator.specialty }}
+          <strong>Casos activos:</strong>
+          {{ mediator.activeCases }}
         </p>
 
         <mat-chip>

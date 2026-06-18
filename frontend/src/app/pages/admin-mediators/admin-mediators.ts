@@ -34,9 +34,9 @@ export class AdminMediators implements OnInit {
   // Datos del formulario para crear mediador
   newMediator: ICreateMediator = {
     fullName: '',
-    email: '',
-    phone: '',
-    specialty: ''
+    zone: '',
+    specialty: '',
+    isAvailable: true,
   };
 
   constructor(
@@ -76,9 +76,9 @@ export class AdminMediators implements OnInit {
         // Limpiamos el formulario
         this.newMediator = {
           fullName: '',
-          email: '',
-          phone: '',
-          specialty: ''
+          zone: '',
+          specialty: '',
+          isAvailable: true,
         };
 
         // Recargamos la lista para mostrar el nuevo mediador

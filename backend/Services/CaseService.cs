@@ -6,9 +6,12 @@ namespace Proyecto_Web_Q2.Services;
 
 public class CaseService(FireBaseService fb)
 {
+    // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _firebaseService = fb;
+    // Nombre de la coleccion en Firestore
     private readonly string collectionName = "cases";
 
+    // Crea un caso nuevo en Firebase (solo ciudadano)
     public async Task<ConflictCase> CreateAsync(CreateCaseDto dto, string userId)
     {
         DocumentSnapshot userDoc = await _firebaseService
@@ -79,6 +82,7 @@ public class CaseService(FireBaseService fb)
         return caso;
     }
 
+    // Trae todos los casos filtrados segun el rol del usuario
     public async Task<List<ConflictCase>> GetCasesAsync(string userId, string role)
     {
         var collection = _firebaseService.GetCollection(collectionName);
@@ -95,6 +99,7 @@ public class CaseService(FireBaseService fb)
         };
     }
 
+    // Trae los casos donde el usuario es el que reporto, el denunciado o el mediador
     public async Task<List<ConflictCase>> GetMyCaseAsync(string userId)
     {
         var collection = _firebaseService.GetCollection(collectionName);
@@ -124,6 +129,7 @@ public class CaseService(FireBaseService fb)
         return casos.Values.ToList();
     }
 
+    // Trae un caso por su ID de Firebase
     public async Task<ConflictCase?> GetByIdAsync(string caseId)
     {
         var doc = await _firebaseService
@@ -134,6 +140,7 @@ public class CaseService(FireBaseService fb)
         return doc.Exists ? MapToCase(doc) : null;
     }
 
+    // Asigna un mediador a un caso y cambia el estado a "asignado"
     public async Task<ConflictCase> AssignMediatorAsync(string caseId, string mediatorId)
     {
         var doc = await _firebaseService
@@ -164,9 +171,17 @@ public class CaseService(FireBaseService fb)
         caso.Status = "asignado";
         caso.AssignedAt = DateTime.UtcNow;
 
+        // Incrementa los casos activos del mediador en la coleccion 'mediators'
+        const string mediatorCollection = "mediators";
+        var mediatorDoc = _firebaseService
+            .GetCollection(mediatorCollection)
+            .Document(mediatorId);
+        await mediatorDoc.UpdateAsync("ActiveCases", FieldValue.Increment(1));
+
         return caso;
     }
 
+    // Cambia el estado de un caso (asignado -> en mediacion -> resuelto/cerrado)
     public async Task<ConflictCase> UpdateStatusAsync(
         string caseId,
         string newStatus,
@@ -222,7 +237,7 @@ public class CaseService(FireBaseService fb)
         return caso;
     }
 
-    // Metodos para solo usarse aca
+    // Convierte los datos de Firebase a un objeto ConflictCase
     private static ConflictCase MapToCase(DocumentSnapshot doc)
     {
         return new ConflictCase

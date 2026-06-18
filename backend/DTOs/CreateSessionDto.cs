@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Web_Q2.DTOs;
 
+// Datos que se mandan al programar una sesion de mediacion
 public class CreateSessionDto
 {
     [Required]
