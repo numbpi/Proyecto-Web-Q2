@@ -1,70 +1,100 @@
-.home-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px;
+.home-page {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* ─── HEADER tipo hero chiquito ─── */
+.home-header {
+  background: var(--mat-sys-primary);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.header-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header-name {
+  color: var(--mat-sys-on-primary);
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  letter-spacing: -0.3px;
+}
+
+.header-meta {
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
-  min-height: 100vh;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.centered-toolbar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
+.header-meta > mat-chip {
+  background: var(--mat-sys-on-primary) !important;
+  color: var(--mat-sys-primary) !important;
+  border-color: var(--mat-sys-primary) !important;
 }
 
-.centered-toolbar-abajo {
-  display: flex;
-  align-items: center;
+.header-meta button[mat-stroked-button] {
+  background: var(--mat-sys-on-primary) !important;
+  color: var(--mat-sys-primary) !important;
+  border-color: var(--mat-sys-primary) !important;
+}
+
+.header-meta button[mat-stroked-button] .mat-icon {
+  color: var(--mat-sys-primary) !important;
+}
+
+/* ─── SECCION DE TARJETAS ─── */
+.home-cards {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
-}
-
-.card-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-mat-card {
+  max-width: 900px;
   width: 100%;
-  max-width: 360px;
+  margin: 40px auto;
+  padding: 0 24px;
+  align-content: start;
+}
+
+.home-cards mat-card {
+  padding: 32px 20px;
+  text-align: center;
   cursor: pointer;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-mat-card:hover {
+.home-cards mat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
-mat-card-header {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 24px;
-}
-
-mat-icon[mat-card-avatar] {
+.card-icon {
   font-size: 40px;
   height: 40px;
   width: 40px;
-  margin-bottom: 8px;
+  color: var(--mat-sys-primary);
+  margin-bottom: 12px;
 }
 
+.home-cards mat-card h3 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ─── LOADING ─── */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 16px;
-  margin-top: 80px;
-  color: #666;
+  margin-top: 60px;
+  color: var(--mat-sys-on-surface-variant);
 }
