@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Home } from './pages/home/home';
@@ -15,6 +16,8 @@ import { MyCases } from './pages/citizen/my-cases/my-cases';
 import { NewCase } from './pages/citizen/new-case/new-case';
 import { Agreements } from './pages/citizen/agreements/agreements';
 import { Compliance } from './pages/citizen/compliance/compliance';
+
+import { MediatorPanel } from './pages/mediator-panel/mediator-panel';
 
 export const routes: Routes = [
   {
@@ -76,6 +79,12 @@ export const routes: Routes = [
   {
     path: 'citizen/compliance',
     component: Compliance,
+  },
+
+  // Ruta del mediador
+  {
+    path: 'mediator/panel',
+    component: MediatorPanel,
   },
 
   {

@@ -1,0 +1,206 @@
+<div class="mediator-panel">
+  <header class="panel-header">
+    <div>
+      <p class="eyebrow">Panel de Mediador</p>
+      <h1>Gestión de casos asignados</h1>
+      <p>
+        Visualizá casos asignados, programá sesiones, registrá resultados y dejá borradores de acuerdos.
+      </p>
+    </div>
+  </header>
+
+  <section *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </section>
+
+  <section *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <div class="card-header">
+        <h2>Casos asignados</h2>
+        <button type="button" (click)="loadAssignedCases()">Recargar</button>
+      </div>
+
+      <p *ngIf="isLoadingCases">Cargando casos...</p>
+
+      <div *ngIf="!isLoadingCases && cases.length === 0" class="empty">
+        No hay casos asignados por el momento.
+      </div>
+
+      <div class="case-list" *ngIf="cases.length > 0">
+        <div
+          class="case-item"
+          *ngFor="let caseItem of cases"
+          [class.selected]="selectedCase?.id === caseItem.id"
+          (click)="selectCase(caseItem)"
+        >
+          <div>
+            <h3>{{ caseItem.conflictType || 'Caso sin tipo de conflicto' }}</h3>
+            <p>{{ caseItem.description || 'Sin descripción' }}</p>
+            <p><strong>Reportante:</strong> {{ caseItem.reporterName || 'No disponible' }}</p>
+            <p><strong>Denunciado:</strong> {{ caseItem.respondentName || 'No disponible' }}</p>
+            <p><strong>Dirección:</strong> {{ caseItem.address || 'No disponible' }}</p>
+            <span>Estado: {{ caseItem.status || 'Sin estado' }}</span>
+          </div>
+
+          <div class="actions">
+            <button type="button" (click)="acceptCase(caseItem); $event.stopPropagation()">
+              Aceptar
+            </button>
+            <button type="button" class="secondary" (click)="requestReassign(caseItem); $event.stopPropagation()">
+              Reasignar
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>Programar sesión</h2>
+
+      <p *ngIf="!selectedCase" class="hint">
+        Seleccioná un caso de la lista para programar una sesión.
+      </p>
+
+      <form (ngSubmit)="createSession()" class="form">
+        <label>
+          Fecha
+          <input type="date" name="scheduledDate" [(ngModel)]="sessionForm.scheduledDate" required />
+        </label>
+
+        <label>
+          Hora
+          <input type="time" name="scheduledTime" [(ngModel)]="sessionForm.scheduledTime" required />
+        </label>
+
+        <label>
+          Modalidad
+          <select name="modality" [(ngModel)]="sessionForm.modality">
+            <option value="presencial">Presencial</option>
+            <option value="virtual">Virtual</option>
+          </select>
+        </label>
+
+        <label>
+          Enlace si aplica
+          <input
+            type="text"
+            name="meetingLink"
+            placeholder="https://..."
+            [(ngModel)]="sessionForm.meetingLink"
+          />
+        </label>
+
+        <label>
+          Notas
+          <textarea
+            name="sessionNotes"
+            rows="4"
+            placeholder="Objetivo o detalles de la sesión"
+            [(ngModel)]="sessionForm.sessionNotes"
+          ></textarea>
+        </label>
+
+        <button type="submit" [disabled]="!selectedCase">
+          Programar sesión
+        </button>
+      </form>
+    </article>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <div class="card-header">
+        <h2>Sesiones del mediador</h2>
+        <button type="button" (click)="loadMySessions()">Recargar</button>
+      </div>
+
+      <p *ngIf="isLoadingSessions">Cargando sesiones...</p>
+
+      <div *ngIf="!isLoadingSessions && sessions.length === 0" class="empty">
+        No hay sesiones registradas.
+      </div>
+
+      <div class="session-list" *ngIf="sessions.length > 0">
+        <div
+          class="session-item"
+          *ngFor="let session of sessions"
+          [class.selected]="selectedSession?.id === session.id"
+          (click)="selectSession(session)"
+        >
+          <h3>{{ session.scheduledDate }} - {{ session.scheduledTime }}</h3>
+          <p>Modalidad: {{ session.modality }}</p>
+          <p>Estado: {{ session.status }}</p>
+          <a *ngIf="session.meetingLink" [href]="session.meetingLink" target="_blank">
+            Enlace de reunión
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>Registrar resultado</h2>
+
+      <p *ngIf="!selectedSession" class="hint">
+        Seleccioná una sesión para registrar avance, acuerdos parciales o cierre.
+      </p>
+
+      <form (ngSubmit)="updateSessionResult()" class="form">
+        <label>
+          Estado de la sesión
+          <select name="resultStatus" [(ngModel)]="resultForm.status">
+            <option value="realizada">Realizada</option>
+            <option value="cancelada">Cancelada</option>
+            <option value="reprogramada">Reprogramada</option>
+            <option value="cerrada">Cerrada</option>
+          </select>
+        </label>
+
+        <label>
+          Resultado / notas
+          <textarea
+            name="resultNotes"
+            rows="5"
+            placeholder="Avance, acuerdos parciales o cierre"
+            [(ngModel)]="resultForm.sessionNotes"
+          ></textarea>
+        </label>
+
+        <button type="submit" [disabled]="!selectedSession">
+          Guardar resultado
+        </button>
+      </form>
+    </article>
+  </section>
+
+  <section class="card agreement-card">
+    <h2>Registro de acuerdos</h2>
+    <p class="hint">
+      Este formulario deja preparado el registro del acuerdo. La confirmación de ambas partes se conecta con el backend de acuerdos.
+    </p>
+
+    <form (ngSubmit)="saveAgreementDraft()" class="form">
+      <label>
+        Acuerdo alcanzado
+        <textarea
+          name="agreementText"
+          rows="5"
+          placeholder="Redacte el acuerdo alcanzado entre las partes"
+          [(ngModel)]="agreementForm.agreementText"
+        ></textarea>
+      </label>
+
+      <label>
+        Plazo de cumplimiento
+        <input type="date" name="deadline" [(ngModel)]="agreementForm.deadline" />
+      </label>
+
+      <button type="submit" [disabled]="!selectedCase">
+        Registrar borrador de acuerdo
+      </button>
+    </form>
+  </section>
+</div>
