@@ -5,7 +5,9 @@ namespace Proyecto_Web_Q2.Services;
 
 public class MediatorService
 {
+    // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService;
+    // Nombre de la coleccion en Firestore
     private const string CollectionName = "mediators";
 
     public MediatorService(FireBaseService fireBaseService)
@@ -13,6 +15,7 @@ public class MediatorService
         _fireBaseService = fireBaseService;
     }
 
+    // Crea un mediador nuevo en Firebase
     public async Task<Mediator> CreateAsync(CreateMediatorDto dto)
     {
         var mediator = new Mediator
@@ -34,6 +37,7 @@ public class MediatorService
         return mediator;
     }
 
+    // Trae todos los mediadores registrados
     public async Task<List<Mediator>> GetAllAsync()
     {
         var collection = _fireBaseService.GetCollection(CollectionName);
@@ -52,6 +56,7 @@ public class MediatorService
         return mediators;
     }
 
+    // Trae un mediador por su ID
     public async Task<Mediator> GetByIdAsync(string id)
     {
         var collection = _fireBaseService.GetCollection(CollectionName);
@@ -65,6 +70,7 @@ public class MediatorService
         return document.ConvertTo<Mediator>();
     }
 
+    // Actualiza los datos de un mediador
     public async Task<Mediator> UpdateAsync(string id, UpdateMediatorDto dto)
     {
         var collection = _fireBaseService.GetCollection(CollectionName);
@@ -90,6 +96,7 @@ public class MediatorService
         return mediator;
     }
 
+    // Desactiva un mediador (no lo borra, solo le pone IsActive = false)
     public async Task<bool> DeactivateAsync(string id)
     {
         var collection = _fireBaseService.GetCollection(CollectionName);

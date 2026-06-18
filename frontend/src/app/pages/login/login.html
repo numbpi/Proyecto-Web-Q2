@@ -34,6 +34,7 @@
         <input matInput type="password" [(ngModel)]="password" placeholder="********" />
       </mat-form-field>
       <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="sucess" *ngIf="sucessMessage">{{ sucessMessage}} </p>
     </mat-card-content>
 
     <mat-card-actions>

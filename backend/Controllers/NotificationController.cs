@@ -11,6 +11,7 @@ namespace Proyecto_Web_Q2.Controllers;
 [Authorize]
 public class NotificationController : ControllerBase
 {
+    // Servicio que tiene la logica de las notificaciones
     private readonly NotificationService _notificationService;
 
     public NotificationController(NotificationService notificationService)
@@ -18,6 +19,7 @@ public class NotificationController : ControllerBase
         _notificationService = notificationService;
     }
 
+    // POST api/Notification - Crea una notificacion nueva
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateNotificationDto dto)
     {
@@ -32,6 +34,7 @@ public class NotificationController : ControllerBase
         }
     }
 
+    // GET api/Notification/my - Trae las notificaciones del usuario logueado
     [HttpGet("my")]
     public async Task<IActionResult> GetMyNotifications()
     {
@@ -42,6 +45,7 @@ public class NotificationController : ControllerBase
         return Ok(notifications);
     }
 
+    // PUT api/Notification/{id}/read - Marca una notificacion como leida
     [HttpPut("{id}/read")]
     public async Task<IActionResult> MarkAsRead(string id)
     {
@@ -63,6 +67,7 @@ public class NotificationController : ControllerBase
         }
     }
 
+    // Saca el ID del usuario desde el token JWT
     private string GetUserIdFromToken()
     {
         return User.FindFirstValue(ClaimTypes.NameIdentifier)

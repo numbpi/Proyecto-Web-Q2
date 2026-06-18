@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Proyecto_Web_Q2.DTOs;
 
+// Datos para iniciar sesion
 public class LoginDto
 {
     [Required]
