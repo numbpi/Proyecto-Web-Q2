@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="header">
+    <div class="header-left">
+      <button mat-icon-button routerLink="/home">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Confirmar Acuerdos</h1>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading">
+      <p>Cargando acuerdos…</p>
+    </div>
+  } @else if (agreements.length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">gavel</mat-icon>
+      <p>No tenés acuerdos pendientes.</p>
+      <p class="empty-hint">
+        Los acuerdos aparecen acá cuando un mediador los redacta para tus casos.
+      </p>
+    </div>
+  } @else {
+    @if (errorMessage) {
+      <p class="error-msg">{{ errorMessage }}</p>
+    }
+
+    <div class="agreements-list">
+      @for (item of agreements; track item.caso.id) {
+        <mat-card class="agreement-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>description</mat-icon>
+            <mat-card-title>{{ item.caso.conflictType }}</mat-card-title>
+            <mat-card-subtitle>
+              vs {{ item.caso.respondentName }}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            @if (item.acuerdo) {
+              <!-- Estado de confirmación -->
+              <div class="confirm-status">
+                <span class="status-label">Tu confirmación:</span>
+                @if (hasConfirmed(item.caso, item.acuerdo)) {
+                  <mat-chip color="primary" highlighted>Confirmado</mat-chip>
+                } @else {
+                  <mat-chip color="warn" highlighted>Pendiente</mat-chip>
+                }
+
+                <span class="status-label">Contraparte:</span>
+                @if (otherConfirmed(item.caso, item.acuerdo)) {
+                  <mat-chip color="primary" highlighted>Confirmó</mat-chip>
+                } @else {
+                  <mat-chip>Pendiente</mat-chip>
+                }
+              </div>
+
+              @if (item.acuerdo.formalizedAt) {
+                <p class="formalized">
+                  Acuerdo formalizado el
+                  {{ item.acuerdo.formalizedAt | date : 'shortDate' }}
+                </p>
+              }
+
+              <!-- Puntos del acuerdo -->
+              <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Ver puntos del acuerdo
+                      ({{ item.acuerdo.points.length }})
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  @for (punto of item.acuerdo.points; track $index) {
+                    <div class="point">
+                      <p class="point-desc">
+                        <strong>{{ $index + 1 }}.</strong>
+                        {{ punto.description }}
+                      </p>
+                      <p class="point-meta">
+                        Plazo: {{ punto.deadline | date : 'shortDate' }} —
+                        Estado:
+                        <mat-chip class="point-chip">{{
+                          punto.complianceStatus
+                        }}</mat-chip>
+                      </p>
+                    </div>
+                  }
+                </mat-expansion-panel>
+              </mat-accordion>
+            } @else {
+              <p class="no-agreement">
+                Aún no se ha redactado un acuerdo para este caso.
+              </p>
+            }
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            @if (item.acuerdo && !item.acuerdo.formalizedAt) {
+              @if (!hasConfirmed(item.caso, item.acuerdo)) {
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="onConfirm(item.acuerdo)"
+                  [disabled]="confirmingId === item.acuerdo.id"
+                >
+                  @if (confirmingId === item.acuerdo.id) {
+                    Confirmando…
+                  } @else {
+                    Confirmar Acuerdo
+                  }
+                </button>
+              } @else {
+                <p class="waiting-other">
+                  Esperando confirmación de la contraparte
+                </p>
+              }
+            }
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

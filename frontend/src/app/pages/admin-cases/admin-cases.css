@@ -55,3 +55,18 @@ mat-card-content {
 .error {
   color: red;
 }
+
+.assign-section {
+  margin-top: 16px;
+}
+
+.assign-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assign-actions {
+  display: flex;
+  gap: 8px;
+}

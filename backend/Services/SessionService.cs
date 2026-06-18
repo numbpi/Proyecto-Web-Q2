@@ -6,9 +6,12 @@ namespace Proyecto_Web_Q2.Services;
 
 public class SessionService(FireBaseService fireBaseService)
 {
+    // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService = fireBaseService;
+    // Nombre de la coleccion en Firestore
     private readonly string collectionName = "sessions";
 
+    // Crea una sesion de mediacion en Firebase (solo mediador)
     public async Task<MediationSession> CreateAsync(CreateSessionDto dto, string userId)
     {
         var caseDoc = await _fireBaseService
@@ -95,6 +98,7 @@ public class SessionService(FireBaseService fireBaseService)
         return session;
     }
 
+    // Trae las sesiones de un caso especifico
     public async Task<List<MediationSession>> GetByCaseIdAsync(string caseId)
     {
         var snapshot = await _fireBaseService
@@ -105,6 +109,7 @@ public class SessionService(FireBaseService fireBaseService)
         return snapshot.Documents.Select(MapToSession).ToList();
     }
 
+    // Trae las sesiones del mediador que esta logueado
     public async Task<List<MediationSession>> GetByMediatorAsync(string userId)
     {
         var mediatorSnapshot = await _fireBaseService
@@ -125,6 +130,7 @@ public class SessionService(FireBaseService fireBaseService)
         return snapshot.Documents.Select(MapToSession).ToList();
     }
 
+    // Actualiza el estado de una sesion (realizada, reprogramada, etc.)
     public async Task<MediationSession> UpdateStatusAsync(
         string sessionId,
         string status,
@@ -169,6 +175,7 @@ public class SessionService(FireBaseService fireBaseService)
         return MapToSession(updatedDoc);
     }
 
+    // Convierte los datos de Firebase a un objeto MediationSession
     private static MediationSession MapToSession(DocumentSnapshot doc)
     {
         return new MediationSession

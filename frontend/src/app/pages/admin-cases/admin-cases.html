@@ -63,9 +63,50 @@
           </mat-chip>
 
           <p>
+            <strong>Mediador:</strong>
+            {{ caseItem.mediatorId ? 'Asignado' : 'Sin asignar' }}
+          </p>
+
+          <p>
             <strong>Fecha:</strong>
             {{ caseItem.createdAt }}
           </p>
+
+          <!-- Botón para asignar mediador solo si el caso está 'nuevo' -->
+          <div class="assign-section" *ngIf="caseItem.status === 'nuevo'">
+
+            <button mat-raised-button color="primary"
+                    *ngIf="assigningCaseId !== caseItem.id"
+                    (click)="showAssign(caseItem.id)">
+              <mat-icon>person_add</mat-icon>
+              Asignar Mediador
+            </button>
+
+            <!-- Selector de mediadores -->
+            <div *ngIf="assigningCaseId === caseItem.id" class="assign-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Seleccionar mediador</mat-label>
+                <mat-select [(ngModel)]="selectedMediatorId">
+                  <mat-option *ngFor="let m of mediators" [value]="m.id">
+                    {{ m.fullName }} - {{ m.specialty }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="assign-actions">
+                <button mat-raised-button color="primary"
+                        [disabled]="!selectedMediatorId"
+                        (click)="assignMediator(caseItem.id)">
+                  Confirmar
+                </button>
+                <button mat-button
+                        (click)="cancelAssign()">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+
+          </div>
 
         </mat-card-content>
 
