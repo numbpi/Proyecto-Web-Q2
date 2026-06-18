@@ -17,6 +17,7 @@ public class MediatorController : ControllerBase
         _mediatorService = mediatorService;
     }
 
+    // Permite registrar un nuevo mediador
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMediatorDto dto)
     {
@@ -24,6 +25,9 @@ public class MediatorController : ControllerBase
         return Ok(mediator);
     }
 
+    // Obtiene todos los mediadores registrados
+    // Este endpoint será utilizado por el frontend
+    // para mostrarlos en la vista /admin/mediators
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -31,6 +35,7 @@ public class MediatorController : ControllerBase
         return Ok(mediators);
     }
 
+    // Obtiene un mediador específico por su Id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
@@ -45,6 +50,7 @@ public class MediatorController : ControllerBase
         }
     }
 
+    // Actualiza la información de un mediador
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateMediatorDto dto)
     {
@@ -59,13 +65,18 @@ public class MediatorController : ControllerBase
         }
     }
 
+    // Desactiva un mediador
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deactivate(string id)
     {
         try
         {
             await _mediatorService.DeactivateAsync(id);
-            return Ok(new { message = "Mediador desactivado correctamente." });
+
+            return Ok(new
+            {
+                message = "Mediador desactivado correctamente."
+            });
         }
         catch (KeyNotFoundException ex)
         {

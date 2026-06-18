@@ -1,0 +1,78 @@
+<div class="admin-cases-container">
+
+  <div class="header">
+    <h1>Gestión de Casos</h1>
+    <p>Lista de todos los casos registrados actualmente.</p>
+  </div>
+
+  <p *ngIf="isLoading" class="loading">
+    Cargando casos...
+  </p>
+
+  <p *ngIf="errorMessage && !isLoading" class="error">
+    {{ errorMessage }}
+  </p>
+
+  <div *ngIf="!isLoading && !errorMessage">
+
+    <h2 class="section-title">Casos Disponibles</h2>
+
+    <p class="section-subtitle">
+      Casos reportados por los ciudadanos dentro del sistema.
+    </p>
+
+    <div class="cases-grid">
+
+      <mat-card class="case-card" *ngFor="let caseItem of cases">
+
+        <mat-card-header>
+          <mat-icon mat-card-avatar>folder</mat-icon>
+
+          <mat-card-title>
+            {{ caseItem.conflictType }}
+          </mat-card-title>
+
+          <mat-card-subtitle>
+            Reportado por: {{ caseItem.reporterName }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <p>
+            <strong>Descripción:</strong>
+            {{ caseItem.description }}
+          </p>
+
+          <p>
+            <strong>Vecino reportado:</strong>
+            {{ caseItem.respondentName }}
+          </p>
+
+          <p>
+            <strong>Dirección:</strong>
+            {{ caseItem.address }}
+          </p>
+
+          <p>
+            <strong>Estado:</strong>
+          </p>
+
+          <mat-chip>
+            {{ caseItem.status }}
+          </mat-chip>
+
+          <p>
+            <strong>Fecha:</strong>
+            {{ caseItem.createdAt }}
+          </p>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+
+  </div>
+
+</div>
