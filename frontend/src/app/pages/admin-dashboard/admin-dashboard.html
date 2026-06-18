@@ -1,0 +1,64 @@
+<div class="dashboard-container">
+
+  <div class="header">
+    <h1>Dashboard Administrativo</h1>
+    <p>Resumen general del sistema.</p>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <!-- Usuarios -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>person</mat-icon>
+        <mat-card-title>Usuarios</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h1>{{ totalUsers }}</h1>
+        <p>Usuarios registrados</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Mediadores -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>groups</mat-icon>
+        <mat-card-title>Mediadores</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h1>{{ totalMediators }}</h1>
+        <p>Mediadores disponibles</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Casos -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>folder</mat-icon>
+        <mat-card-title>Casos</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h1>{{ totalCases }}</h1>
+        <p>Casos registrados</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Reportes -->
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>assessment</mat-icon>
+        <mat-card-title>Reportes</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <h1>{{ totalReports }}</h1>
+        <p>Reportes generados</p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+</div>

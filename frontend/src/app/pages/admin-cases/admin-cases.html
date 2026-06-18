@@ -1,0 +1,119 @@
+<div class="admin-cases-container">
+
+  <div class="header">
+    <h1>Gestión de Casos</h1>
+    <p>Lista de todos los casos registrados actualmente.</p>
+  </div>
+
+  <p *ngIf="isLoading" class="loading">
+    Cargando casos...
+  </p>
+
+  <p *ngIf="errorMessage && !isLoading" class="error">
+    {{ errorMessage }}
+  </p>
+
+  <div *ngIf="!isLoading && !errorMessage">
+
+    <h2 class="section-title">Casos Disponibles</h2>
+
+    <p class="section-subtitle">
+      Casos reportados por los ciudadanos dentro del sistema.
+    </p>
+
+    <div class="cases-grid">
+
+      <mat-card class="case-card" *ngFor="let caseItem of cases">
+
+        <mat-card-header>
+          <mat-icon mat-card-avatar>folder</mat-icon>
+
+          <mat-card-title>
+            {{ caseItem.conflictType }}
+          </mat-card-title>
+
+          <mat-card-subtitle>
+            Reportado por: {{ caseItem.reporterName }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <p>
+            <strong>Descripción:</strong>
+            {{ caseItem.description }}
+          </p>
+
+          <p>
+            <strong>Vecino reportado:</strong>
+            {{ caseItem.respondentName }}
+          </p>
+
+          <p>
+            <strong>Dirección:</strong>
+            {{ caseItem.address }}
+          </p>
+
+          <p>
+            <strong>Estado:</strong>
+          </p>
+
+          <mat-chip>
+            {{ caseItem.status }}
+          </mat-chip>
+
+          <p>
+            <strong>Mediador:</strong>
+            {{ caseItem.mediatorId ? 'Asignado' : 'Sin asignar' }}
+          </p>
+
+          <p>
+            <strong>Fecha:</strong>
+            {{ caseItem.createdAt }}
+          </p>
+
+          <!-- Botón para asignar mediador solo si el caso está 'nuevo' -->
+          <div class="assign-section" *ngIf="caseItem.status === 'nuevo'">
+
+            <button mat-raised-button color="primary"
+                    *ngIf="assigningCaseId !== caseItem.id"
+                    (click)="showAssign(caseItem.id)">
+              <mat-icon>person_add</mat-icon>
+              Asignar Mediador
+            </button>
+
+            <!-- Selector de mediadores -->
+            <div *ngIf="assigningCaseId === caseItem.id" class="assign-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Seleccionar mediador</mat-label>
+                <mat-select [(ngModel)]="selectedMediatorId">
+                  <mat-option *ngFor="let m of mediators" [value]="m.id">
+                    {{ m.fullName }} - {{ m.specialty }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="assign-actions">
+                <button mat-raised-button color="primary"
+                        [disabled]="!selectedMediatorId"
+                        (click)="assignMediator(caseItem.id)">
+                  Confirmar
+                </button>
+                <button mat-button
+                        (click)="cancelAssign()">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+
+  </div>
+
+</div>

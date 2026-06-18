@@ -6,8 +6,7 @@ import { ICase, ICreateCaseDto } from '../models/case.model';
 
 @Injectable({ providedIn: 'root' })
 export class CaseService {
-  // URL base del API de casos
-  protected readonly apiURL: string = 'http://localhost:5174/api/Case';
+  private readonly apiURL: string = 'http://localhost:5174/api/Case';
 
   constructor(
     private authService: AuthService,
@@ -20,15 +19,33 @@ export class CaseService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   };
 
-  // Trae todos los casos del usuario que inició sesión
+  // Trae todos los casos. Admin lo usa para ver todos los casos del sistema.
+  getAllCases = (): Observable<ICase[]> =>
+    this.http.get<ICase[]>(`${this.apiURL}`, {
+      headers: this.getHeaders(),
+    });
+
+  // Trae los casos del usuario que inició sesión.
   getMyCases = (): Observable<ICase[]> =>
     this.http.get<ICase[]>(`${this.apiURL}`, {
       headers: this.getHeaders(),
     });
 
-  // Envia los datos al backend para crear un caso nuevo
+  // Envía los datos al backend para crear un caso nuevo.
   create = (dto: ICreateCaseDto): Observable<ICase> =>
     this.http.post<ICase>(`${this.apiURL}`, dto, {
+      headers: this.getHeaders(),
+    });
+
+  // Cambia el estado de un caso (solo mediador)
+  updateStatus = (caseId: string, status: string): Observable<ICase> =>
+    this.http.put<ICase>(`${this.apiURL}/${caseId}/status`, { status }, {
+      headers: this.getHeaders(),
+    });
+
+  // Asigna un mediador a un caso (solo admin)
+  assignMediator = (caseId: string, mediatorId: string): Observable<ICase> =>
+    this.http.put<ICase>(`${this.apiURL}/${caseId}/assign`, { mediatorId }, {
       headers: this.getHeaders(),
     });
 }

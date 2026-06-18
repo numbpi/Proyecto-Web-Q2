@@ -10,7 +10,7 @@ namespace Proyecto_Web_Q2.Controllers;
 [Authorize]
 public class MediatorController : ControllerBase
 {
-    // Servicio que tiene la logica de los mediadores
+    // Servicio que contiene toda la lógica relacionada con mediadores
     private readonly MediatorService _mediatorService;
 
     public MediatorController(MediatorService mediatorService)
@@ -18,7 +18,7 @@ public class MediatorController : ControllerBase
         _mediatorService = mediatorService;
     }
 
-    // POST api/Mediator - Crea un mediador nuevo (solo admin)
+    // POST api/Mediator - Crea un nuevo mediador
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMediatorDto dto)
     {
@@ -26,7 +26,8 @@ public class MediatorController : ControllerBase
         return Ok(mediator);
     }
 
-    // GET api/Mediator - Trae todos los mediadores registrados
+    // GET api/Mediator - Obtiene todos los mediadores registrados
+    // Este endpoint es utilizado por el frontend para mostrarlos en /admin/mediators
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -34,7 +35,7 @@ public class MediatorController : ControllerBase
         return Ok(mediators);
     }
 
-    // GET api/Mediator/{id} - Trae un mediador por su ID
+    // GET api/Mediator/{id} - Obtiene un mediador por su Id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
@@ -49,7 +50,7 @@ public class MediatorController : ControllerBase
         }
     }
 
-    // PUT api/Mediator/{id} - Actualiza los datos de un mediador
+    // PUT api/Mediator/{id} - Actualiza la información de un mediador
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateMediatorDto dto)
     {
@@ -64,14 +65,18 @@ public class MediatorController : ControllerBase
         }
     }
 
-    // DELETE api/Mediator/{id} - Desactiva un mediador (no lo borra, solo lo desactiva)
+    // DELETE api/Mediator/{id} - Desactiva un mediador (no lo elimina)
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deactivate(string id)
     {
         try
         {
             await _mediatorService.DeactivateAsync(id);
-            return Ok(new { message = "Mediador desactivado correctamente." });
+
+            return Ok(new
+            {
+                message = "Mediador desactivado correctamente."
+            });
         }
         catch (KeyNotFoundException ex)
         {

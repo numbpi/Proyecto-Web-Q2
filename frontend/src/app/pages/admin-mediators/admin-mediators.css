@@ -1,0 +1,90 @@
+.admin-mediators-container {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: #fff7fb;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  margin-bottom: 8px;
+  font-size: 32px;
+}
+
+.header p {
+  color: gray;
+}
+
+/* Tarjeta del formulario */
+.create-card {
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+  padding: 20px;
+}
+
+.create-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/* Grid de mediadores */
+.mediators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.mediator-card {
+  border-radius: 16px;
+  padding: 10px;
+}
+
+mat-card-content {
+  margin-top: 15px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Mensajes */
+.success {
+  text-align: center;
+  color: green;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.error {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+}
+
+.section-title {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: gray;
+  margin-bottom: 30px;
+}

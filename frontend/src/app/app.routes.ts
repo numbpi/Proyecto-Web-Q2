@@ -4,13 +4,24 @@ import { Register } from './pages/register/register';
 import { Home } from './pages/home/home';
 import { ForgotPassword } from './pages/forgot-password/forgot-password';
 import { ResetPassword } from './pages/reset-password/reset-password';
+import { Landing } from './pages/landing/landing';
+
 import { AdminUsers } from './pages/admin-users/admin-users';
+import { AdminMediators } from './pages/admin-mediators/admin-mediators';
+import { AdminCases } from './pages/admin-cases/admin-cases';
+import { AdminReports } from './pages/admin-reports/admin-reports';
+import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
+
 import { MyCases } from './pages/citizen/my-cases/my-cases';
 import { NewCase } from './pages/citizen/new-case/new-case';
 import { Agreements } from './pages/citizen/agreements/agreements';
 import { Compliance } from './pages/citizen/compliance/compliance';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: Landing,
+  },
   {
     path: 'login',
     component: Login,
@@ -32,9 +43,36 @@ export const routes: Routes = [
     component: ResetPassword,
   },
 
+  // Rutas del administrador
+  {
+    path: 'admin/dashboard',
+    component: AdminDashboard,
+  },
+  {
+    path: 'admin/users',
+    component: AdminUsers,
+  },
+  {
+    path: 'admin/mediators',
+    component: AdminMediators,
+  },
+  {
+    path: 'admin/cases',
+    component: AdminCases,
+  },
+  {
+    path: 'admin/reports',
+    component: AdminReports,
+  },
+
+  // Rutas del ciudadano
   {
     path: 'citizen/new-case',
     component: NewCase,
+  },
+  {
+    path: 'citizen/my-cases',
+    component: MyCases,
   },
   {
     path: 'citizen/agreements',
@@ -44,20 +82,9 @@ export const routes: Routes = [
     path: 'citizen/compliance',
     component: Compliance,
   },
-  {
-    path: 'citizen/my-cases',
-    component: MyCases,
-  },
-  {
-  path: 'admin/users',
-  component: AdminUsers,
-},
 
   {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full',
+    path: '**',
+    redirectTo: '',
   },
-
-  
 ];
