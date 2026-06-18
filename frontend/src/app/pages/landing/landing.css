@@ -1,0 +1,192 @@
+/* ─── GENERAL ─── */
+.landing {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: var(--mat-sys-on-surface);
+}
+
+.section-desc {
+  color: var(--mat-sys-on-surface-variant);
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mat-sys-primary);
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--mat-sys-on-primary);
+  padding: 24px;
+  max-width: 640px;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  font-style: italic;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 32px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-actions button {
+  background: var(--mat-sys-on-primary) !important;
+  color: var(--mat-sys-primary) !important;
+  min-width: 180px;
+  font-size: 16px;
+}
+
+/* ─── TARJETAS DE ROLES ─── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.role-card {
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.role-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: var(--mat-sys-primary);
+  margin-bottom: 16px;
+}
+
+.role-card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.role-card p {
+  color: var(--mat-sys-on-surface-variant);
+  line-height: 1.5;
+}
+
+/* ─── PROCESO ─── */
+.process-section {
+  background: var(--mat-sys-surface-container-high);
+  max-width: none;
+  padding: 60px 24px;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+  min-width: 140px;
+  max-width: 180px;
+}
+
+.step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.step h4 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.step p {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.step-arrow mat-icon {
+  color: var(--mat-sys-primary);
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+}
+
+/* ─── CTA ─── */
+.cta-section {
+  background: var(--mat-sys-primary);
+  max-width: none;
+  color: var(--mat-sys-on-primary);
+  padding: 60px 24px;
+}
+
+.cta-section h2 {
+  color: var(--mat-sys-on-primary);
+}
+
+.cta-section p {
+  color: var(--mat-sys-on-primary);
+  opacity: 0.85;
+  margin-bottom: 24px;
+}
+
+.cta-section button {
+  font-size: 16px;
+  min-width: 200px;
+}

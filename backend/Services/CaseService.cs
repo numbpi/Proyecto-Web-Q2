@@ -171,6 +171,13 @@ public class CaseService(FireBaseService fb)
         caso.Status = "asignado";
         caso.AssignedAt = DateTime.UtcNow;
 
+        // Incrementa los casos activos del mediador en la coleccion 'mediators'
+        const string mediatorCollection = "mediators";
+        var mediatorDoc = _firebaseService
+            .GetCollection(mediatorCollection)
+            .Document(mediatorId);
+        await mediatorDoc.UpdateAsync("ActiveCases", FieldValue.Increment(1));
+
         return caso;
     }
 

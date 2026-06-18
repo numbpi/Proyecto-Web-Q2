@@ -4,33 +4,31 @@
     <p>Lista de usuarios registrados en el sistema.</p>
   </div>
 
-  @if (isLoading) {
-    <p class="loading">Cargando usuarios...</p>
-  } @else {
-    @if (errorMessage) {
-      <p class="error">{{ errorMessage }}</p>
-    } @else {
-      <div class="users-grid">
-        @for (user of users; track user.id) {
-          <mat-card class="user-card">
-            <mat-card-header>
-              <mat-icon mat-card-avatar>person</mat-icon>
-              <mat-card-title>{{ user.fullName }}</mat-card-title>
-              <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
-            </mat-card-header>
+  <p *ngIf="isLoading" class="loading">
+    Cargando usuarios...
+  </p>
 
-            <mat-card-content>
-              <mat-chip>{{ user.role }}</mat-chip>
-            </mat-card-content>
+  <p *ngIf="errorMessage && !isLoading" class="error">
+    {{ errorMessage }}
+  </p>
 
-            <mat-card-actions>
-              <button mat-stroked-button color="primary">
-                Ver detalles
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        }
-      </div>
-    }
-  }
+  <div *ngIf="!isLoading && !errorMessage" class="users-grid">
+    <mat-card class="user-card" *ngFor="let user of users">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>person</mat-icon>
+        <mat-card-title>{{ user.fullName }}</mat-card-title>
+        <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-chip>{{ user.role }}</mat-chip>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-stroked-button color="primary">
+          Ver detalles
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

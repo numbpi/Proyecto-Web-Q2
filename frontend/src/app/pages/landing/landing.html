@@ -1,0 +1,89 @@
+<div class="landing">
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Vecindario Tranquilo</h1>
+      <p class="hero-subtitle">"Conflictos que se resuelven, comunidades que crecen"</p>
+      <p class="hero-desc">
+        Plataforma de mediacion comunitaria para resolver conflictos vecinales
+        de forma rapida, transparente y sin necesidad de llegar a instancias legales.
+      </p>
+      <div class="hero-actions">
+        <button mat-raised-button color="primary" routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Iniciar Sesion
+        </button>
+        <button mat-stroked-button routerLink="/register">
+          <mat-icon>person_add</mat-icon>
+          Registrarse
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ROLES ─── -->
+  <section class="section">
+    <h2>¿Como funciona?</h2>
+    <p class="section-desc">
+      Tres roles trabajan juntos para resolver conflictos vecinales.
+    </p>
+    <div class="cards">
+      <mat-card class="role-card">
+        <mat-icon class="role-icon">person</mat-icon>
+        <h3>Ciudadano</h3>
+        <p>Reporta conflictos vecinales, participa en sesiones de mediacion y confirma acuerdos.</p>
+      </mat-card>
+      <mat-card class="role-card">
+        <mat-icon class="role-icon">account_balance</mat-icon>
+        <h3>Mediador</h3>
+        <p>Gestiona casos asignados, programa sesiones y redacta acuerdos entre las partes.</p>
+      </mat-card>
+      <mat-card class="role-card">
+        <mat-icon class="role-icon">shield</mat-icon>
+        <h3>Administrador</h3>
+        <p>Supervisa la plataforma, asigna mediadores y genera reportes de gestion.</p>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- ─── PROCESO ─── -->
+  <section class="section process-section">
+    <h2>El proceso de mediacion</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Reportar</h4>
+        <p>El ciudadano reporta un conflicto vecinal</p>
+      </div>
+      <div class="step-arrow"><mat-icon>arrow_forward</mat-icon></div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Asignar</h4>
+        <p>El administrador asigna un mediador</p>
+      </div>
+      <div class="step-arrow"><mat-icon>arrow_forward</mat-icon></div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Mediar</h4>
+        <p>El mediador programa sesiones y redacta acuerdos</p>
+      </div>
+      <div class="step-arrow"><mat-icon>arrow_forward</mat-icon></div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Resolver</h4>
+        <p>Ambas partes confirman el acuerdo y se formaliza</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="section cta-section">
+    <h2>¿Listo para resolver conflictos?</h2>
+    <p>Registrate y comenza a usar la plataforma.</p>
+    <button mat-raised-button color="primary" routerLink="/register">
+      <mat-icon>person_add</mat-icon>
+      Crear Cuenta
+    </button>
+  </section>
+</div>

@@ -46,7 +46,7 @@ export class MyCases implements OnInit {
   };
 
   // Columnas que se muestran en la tabla
-  displayedColumns: string[] = ['conflictType', 'reporterName', 'respondentName', 'status', 'createdAt'];
+  displayedColumns: string[] = ['conflictType', 'reporterName', 'respondentName', 'status', 'createdAt', 'acciones'];
 
   constructor(
     private caseService: CaseService,
@@ -100,4 +100,18 @@ export class MyCases implements OnInit {
 
     return esYo ? 'Yo' : tipo === 'reporter' ? caso.reporterName : caso.respondentName;
   };
+
+  // Muestra una alerta con todos los detalles del caso
+  verDetalle(caso: ICase): void {
+    alert(
+      `Caso: ${caso.conflictType}\n` +
+      `─────────────────────\n` +
+      `Reportado por: ${caso.reporterName}\n` +
+      `Vecino reportado: ${caso.respondentName}\n` +
+      `Dirección: ${caso.address}\n` +
+      `Estado: ${caso.status}\n` +
+      `Fecha: ${caso.createdAt}\n\n` +
+      `Descripción:\n${caso.description}`
+    );
+  }
 }

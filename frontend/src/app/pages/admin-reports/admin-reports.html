@@ -1,0 +1,66 @@
+<div class="admin-reports-container">
+
+  <div class="header">
+    <h1>Gestión de Reportes</h1>
+    <p>Lista de reportes generados dentro del sistema.</p>
+  </div>
+
+  <p *ngIf="isLoading" class="loading">
+    Cargando reportes...
+  </p>
+
+  <p *ngIf="errorMessage && !isLoading" class="error">
+    {{ errorMessage }}
+  </p>
+
+  <div *ngIf="!isLoading && !errorMessage">
+
+    <h2 class="section-title">
+      Reportes Disponibles
+    </h2>
+
+    <p class="section-subtitle">
+      Reportes generados por los usuarios del sistema.
+    </p>
+
+    <div class="reports-grid">
+
+      <mat-card class="report-card"
+                *ngFor="let report of reports">
+
+        <mat-card-header>
+
+          <mat-icon mat-card-avatar>
+            assessment
+          </mat-icon>
+
+          <mat-card-title>
+            {{ report.type }}
+          </mat-card-title>
+
+          <mat-card-subtitle>
+            Generado por: {{ report.generatedBy }}
+          </mat-card-subtitle>
+
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <p>
+            <strong>Fecha:</strong>
+            {{ report.createdAt }}
+          </p>
+
+          <mat-chip>
+            Reporte generado
+          </mat-chip>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+
+  </div>
+
+</div>
