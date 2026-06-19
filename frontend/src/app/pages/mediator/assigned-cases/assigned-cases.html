@@ -1,0 +1,83 @@
+<main class="assigned-cases-page">
+  <header class="page-header">
+    <div>
+      <a mat-button routerLink="/home">
+        <mat-icon>arrow_back</mat-icon>
+        Volver al panel
+      </a>
+
+      <h1>Mis casos asignados</h1>
+      <p>Consulta los casos que te fueron asignados como mediador.</p>
+    </div>
+
+    <button mat-stroked-button (click)="loadCases()">
+      <mat-icon>refresh</mat-icon>
+      Actualizar
+    </button>
+  </header>
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="45"></mat-spinner>
+      <p>Cargando casos...</p>
+    </div>
+  } @else if (errorMessage) {
+    <mat-card class="message-card error-card">
+      <mat-icon>error</mat-icon>
+      <p>{{ errorMessage }}</p>
+    </mat-card>
+  } @else if (cases.length === 0) {
+    <mat-card class="message-card">
+      <mat-icon>inbox</mat-icon>
+      <h2>No tienes casos asignados</h2>
+      <p>Los casos asignados por el administrador aparecerán aquí.</p>
+    </mat-card>
+  } @else {
+    <div class="table-container">
+      <table mat-table [dataSource]="cases">
+        <ng-container matColumnDef="conflictType">
+          <th mat-header-cell *matHeaderCellDef>Conflicto</th>
+
+          <td mat-cell *matCellDef="let item">
+            <strong>{{ item.conflictType }}</strong>
+            <span class="case-description">{{ item.description }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="parties">
+          <th mat-header-cell *matHeaderCellDef>Partes involucradas</th>
+
+          <td mat-cell *matCellDef="let item">
+            <span>{{ item.reporterName }}</span>
+            <span>{{ item.respondentName }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+
+          <td mat-cell *matCellDef="let item">
+            <mat-chip>{{ item.status }}</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+
+          <td mat-cell *matCellDef="let item">
+            <a
+              mat-stroked-button
+              [routerLink]="['/mediator/cases', item.id]"
+            >
+              <mat-icon>visibility</mat-icon>
+              Ver detalle
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  }
+</main>

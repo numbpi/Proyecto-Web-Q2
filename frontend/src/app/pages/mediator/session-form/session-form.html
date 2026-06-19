@@ -1,0 +1,213 @@
+<main class="session-page">
+  <header class="page-header">
+    <div>
+      <a mat-button routerLink="/home">
+        <mat-icon>arrow_back</mat-icon>
+        Volver al panel
+      </a>
+
+      <h1>Sesiones de mediación</h1>
+      <p>Programa sesiones y registra sus resultados.</p>
+    </div>
+  </header>
+
+  @if (successMessage) {
+    <mat-card class="message-card success-card">
+      <mat-icon>check_circle</mat-icon>
+      {{ successMessage }}
+    </mat-card>
+  }
+
+  @if (errorMessage) {
+    <mat-card class="message-card error-card">
+      <mat-icon>error</mat-icon>
+      {{ errorMessage }}
+    </mat-card>
+  }
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="45"></mat-spinner>
+      <p>Cargando sesiones...</p>
+    </div>
+  } @else {
+    <div class="session-grid">
+      <mat-card class="form-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>event</mat-icon>
+          <mat-card-title>Programar nueva sesión</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Caso asignado</mat-label>
+
+            <mat-select [(ngModel)]="caseId">
+              @for (item of cases; track item.id) {
+                <mat-option [value]="item.id">
+                  {{ item.conflictType }} -
+                  {{ item.reporterName }} /
+                  {{ item.respondentName }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <div class="date-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha</mat-label>
+
+              <input
+                matInput
+                type="date"
+                [min]="minimumDate"
+                [(ngModel)]="scheduledDate"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Hora</mat-label>
+
+              <input
+                matInput
+                type="time"
+                [(ngModel)]="scheduledTime"
+              />
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Modalidad</mat-label>
+
+            <mat-select [(ngModel)]="modality">
+              <mat-option value="presencial">
+                Presencial
+              </mat-option>
+
+              <mat-option value="virtual">
+                Virtual
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          @if (modality === 'virtual') {
+            <mat-form-field appearance="outline">
+              <mat-label>Enlace de la reunión</mat-label>
+
+              <input
+                matInput
+                type="url"
+                placeholder="https://meet.google.com/..."
+                [(ngModel)]="meetingLink"
+              />
+            </mat-form-field>
+          }
+
+          <mat-form-field appearance="outline">
+            <mat-label>Notas iniciales</mat-label>
+
+            <textarea
+              matInput
+              rows="4"
+              [(ngModel)]="sessionNotes"
+            ></textarea>
+          </mat-form-field>
+
+          @if (cases.length === 0) {
+            <p class="empty-message">
+              No tienes casos disponibles para programar sesiones.
+            </p>
+          }
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button
+            mat-flat-button
+            (click)="createSession()"
+            [disabled]="isSaving || cases.length === 0"
+          >
+            <mat-icon>event_available</mat-icon>
+
+            {{ isSaving ? 'Guardando...' : 'Programar sesión' }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <section class="sessions-list">
+        <h2>Mis sesiones</h2>
+
+        @if (sessions.length === 0) {
+          <mat-card class="empty-card">
+            <mat-icon>event_busy</mat-icon>
+            <p>No hay sesiones programadas.</p>
+          </mat-card>
+        }
+
+        @for (session of sessions; track session.id) {
+          <mat-card class="session-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>calendar_month</mat-icon>
+
+              <mat-card-title>
+                {{ caseName(session.caseId) }}
+              </mat-card-title>
+
+              <mat-card-subtitle>
+                {{ session.scheduledDate | date: 'dd/MM/yyyy' }}
+                a las {{ session.scheduledTime }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div class="chips-row">
+                <mat-chip>{{ session.modality }}</mat-chip>
+                <mat-chip>{{ session.status }}</mat-chip>
+              </div>
+
+              @if (session.meetingLink) {
+                <a
+                  mat-button
+                  [href]="session.meetingLink"
+                  target="_blank"
+                >
+                  <mat-icon>videocam</mat-icon>
+                  Abrir reunión
+                </a>
+              }
+
+              @if (session.status !== 'realizada') {
+                <mat-form-field appearance="outline">
+                  <mat-label>Resultado o avance de la sesión</mat-label>
+
+                  <textarea
+                    matInput
+                    rows="3"
+                    [(ngModel)]="session.sessionNotes"
+                  ></textarea>
+                </mat-form-field>
+              } @else {
+                <p class="session-notes">
+                  <strong>Resultado:</strong>
+                  {{ session.sessionNotes || 'Sin notas registradas' }}
+                </p>
+              }
+            </mat-card-content>
+
+            @if (session.status !== 'realizada') {
+              <mat-card-actions align="end">
+                <button
+                  mat-stroked-button
+                  (click)="completeSession(session)"
+                  [disabled]="updatingSessionId === session.id"
+                >
+                  <mat-icon>task_alt</mat-icon>
+                  Marcar como realizada
+                </button>
+              </mat-card-actions>
+            }
+          </mat-card>
+        }
+      </section>
+    </div>
+  }
+</main>

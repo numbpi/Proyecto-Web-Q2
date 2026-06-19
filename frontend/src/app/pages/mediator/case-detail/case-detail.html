@@ -1,0 +1,128 @@
+<main class="case-detail-page">
+  <a mat-button routerLink="/mediator/cases">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a mis casos
+  </a>
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="45"></mat-spinner>
+      <p>Cargando caso...</p>
+    </div>
+  } @else if (errorMessage && !caseData) {
+    <mat-card class="message-card error-card">
+      <mat-icon>error</mat-icon>
+      <p>{{ errorMessage }}</p>
+    </mat-card>
+  } @else if (caseData) {
+    <header class="detail-header">
+      <div>
+        <h1>{{ caseData.conflictType }}</h1>
+        <p>Caso #{{ caseData.id }}</p>
+      </div>
+
+      <mat-chip>{{ caseData.status }}</mat-chip>
+    </header>
+
+    @if (successMessage) {
+      <mat-card class="success-card">
+        <mat-icon>check_circle</mat-icon>
+        {{ successMessage }}
+      </mat-card>
+    }
+
+    @if (errorMessage) {
+      <mat-card class="error-card">
+        <mat-icon>error</mat-icon>
+        {{ errorMessage }}
+      </mat-card>
+    }
+
+    <div class="detail-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>description</mat-icon>
+          <mat-card-title>Información del conflicto</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="information-item">
+            <strong>Descripción</strong>
+            <p>{{ caseData.description }}</p>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="information-item">
+            <strong>Dirección</strong>
+            <p>{{ caseData.address }}</p>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="information-item">
+            <strong>Fecha de creación</strong>
+            <p>{{ caseData.createdAt | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>groups</mat-icon>
+          <mat-card-title>Partes involucradas</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="person">
+            <mat-icon>person</mat-icon>
+            <div>
+              <strong>Persona que reportó</strong>
+              <p>{{ caseData.reporterName }}</p>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="person">
+            <mat-icon>person_outline</mat-icon>
+            <div>
+              <strong>Persona reportada</strong>
+              <p>{{ caseData.respondentName }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <mat-card class="actions-card">
+      <mat-card-header>
+        <mat-card-title>Acciones del mediador</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-actions>
+        @if (caseData.status === 'asignado') {
+          <button
+            mat-flat-button
+            (click)="updateStatus('en mediacion')"
+            [disabled]="isUpdating"
+          >
+            <mat-icon>play_arrow</mat-icon>
+            {{ isUpdating ? 'Actualizando...' : 'Aceptar e iniciar mediación' }}
+          </button>
+        }
+
+        @if (caseData.status === 'en mediacion') {
+          <button
+            mat-stroked-button
+            (click)="updateStatus('cerrado sin acuerdo')"
+            [disabled]="isUpdating"
+          >
+            <mat-icon>close</mat-icon>
+            Cerrar sin acuerdo
+          </button>
+        }
+      </mat-card-actions>
+    </mat-card>
+  }
+</main>

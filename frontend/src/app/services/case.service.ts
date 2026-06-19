@@ -34,39 +34,51 @@ export class CaseService {
     private http: HttpClient,
   ) {}
 
-  // Sirve para armar el header con el token JWT
   private getHeaders = (): HttpHeaders => {
     const token = this.authService.getToken();
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
   };
 
-  // Trae todos los casos. Admin lo usa para ver todos los casos del sistema.
   getAllCases = (): Observable<ICase[]> =>
-    this.http.get<ICase[]>(`${this.apiURL}`, {
+    this.http.get<ICase[]>(this.apiURL, {
       headers: this.getHeaders(),
     });
 
-  // Trae los casos del usuario que inició sesión.
   getMyCases = (): Observable<ICase[]> =>
-    this.http.get<ICase[]>(`${this.apiURL}`, {
+    this.http.get<ICase[]>(this.apiURL, {
       headers: this.getHeaders(),
     });
 
-  // Envía los datos al backend para crear un caso nuevo.
+  getById = (caseId: string): Observable<ICase> =>
+    this.http.get<ICase>(`${this.apiURL}/${caseId}`, {
+      headers: this.getHeaders(),
+    });
+
   create = (dto: ICreateCaseDto): Observable<ICase> =>
-    this.http.post<ICase>(`${this.apiURL}`, dto, {
+    this.http.post<ICase>(this.apiURL, dto, {
       headers: this.getHeaders(),
     });
 
-  // Cambia el estado de un caso (solo mediador)
-  updateStatus = (caseId: string, status: string): Observable<ICase> =>
-    this.http.put<ICase>(`${this.apiURL}/${caseId}/status`, { status }, {
-      headers: this.getHeaders(),
-    });
+  updateStatus = (
+    caseId: string,
+    status: string,
+  ): Observable<ICase> =>
+    this.http.put<ICase>(
+      `${this.apiURL}/${caseId}/status`,
+      { status },
+      { headers: this.getHeaders() },
+    );
 
-  // Asigna un mediador a un caso (solo admin)
-  assignMediator = (caseId: string, mediatorId: string): Observable<ICase> =>
-    this.http.put<ICase>(`${this.apiURL}/${caseId}/assign`, { mediatorId }, {
-      headers: this.getHeaders(),
-    });
+  assignMediator = (
+    caseId: string,
+    mediatorId: string,
+  ): Observable<ICase> =>
+    this.http.put<ICase>(
+      `${this.apiURL}/${caseId}/assign`,
+      { mediatorId },
+      { headers: this.getHeaders() },
+    );
 }
