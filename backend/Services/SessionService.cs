@@ -8,6 +8,7 @@ public class SessionService(FireBaseService fireBaseService)
 {
     // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService = fireBaseService;
+
     // Nombre de la coleccion en Firestore
     private readonly string collectionName = "sessions";
 
@@ -45,7 +46,9 @@ public class SessionService(FireBaseService fireBaseService)
         var caseStatus = caseDoc.GetValue<string>("Status");
 
         if (caseStatus != "asignado" && caseStatus != "en mediacion")
-            throw new Exception("Solo se pueden programar sesiones en casos asignados o en mediacion");
+            throw new Exception(
+                "Solo se pueden programar sesiones en casos asignados o en mediacion"
+            );
 
         if (dto.Modality.ToLower() == "virtual" && string.IsNullOrWhiteSpace(dto.MeetingLink))
             throw new Exception("Debe ingresar un enlace para sesiones virtuales");
@@ -80,18 +83,12 @@ public class SessionService(FireBaseService fireBaseService)
             { "CreatedAt", session.CreatedAt },
         };
 
-        await _fireBaseService
-            .GetCollection(collectionName)
-            .Document(session.Id)
-            .SetAsync(data);
+        await _fireBaseService.GetCollection(collectionName).Document(session.Id).SetAsync(data);
 
         if (caseStatus == "asignado")
         {
             await caseDoc.Reference.UpdateAsync(
-                new Dictionary<string, object>
-                {
-                    { "Status", "en mediacion" },
-                }
+                new Dictionary<string, object> { { "Status", "en mediacion" } }
             );
         }
 

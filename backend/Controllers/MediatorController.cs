@@ -73,10 +73,7 @@ public class MediatorController : ControllerBase
         {
             await _mediatorService.DeactivateAsync(id);
 
-            return Ok(new
-            {
-                message = "Mediador desactivado correctamente."
-            });
+            return Ok(new { message = "Mediador desactivado correctamente." });
         }
         catch (KeyNotFoundException ex)
         {

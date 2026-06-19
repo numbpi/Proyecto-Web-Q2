@@ -17,6 +17,11 @@ import { NewCase } from './pages/citizen/new-case/new-case';
 import { Agreements } from './pages/citizen/agreements/agreements';
 import { Compliance } from './pages/citizen/compliance/compliance';
 
+import { AssignedCases } from './pages/mediator/assigned-cases/assigned-cases';
+import { CaseDetail } from './pages/mediator/case-detail/case-detail';
+import { SessionForm } from './pages/mediator/session-form/session-form';
+import { AgreementForm } from './pages/mediator/agreement-form/agreement-form';
+
 export const routes: Routes = [
   {
     path: '',
@@ -81,6 +86,24 @@ export const routes: Routes = [
   {
     path: 'citizen/compliance',
     component: Compliance,
+  },
+
+  // Rutas del mediador
+  {
+    path: 'mediator/cases',
+    component: AssignedCases,
+  },
+  {
+    path: 'mediator/cases/:id',
+    component: CaseDetail,
+  },
+  {
+    path: 'mediator/sessions',
+    component: SessionForm,
+  },
+  {
+    path: 'mediator/agreements',
+    component: AgreementForm,
   },
 
   {

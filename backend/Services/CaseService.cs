@@ -8,6 +8,7 @@ public class CaseService(FireBaseService fb)
 {
     // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _firebaseService = fb;
+
     // Nombre de la coleccion en Firestore
     private readonly string collectionName = "cases";
 
@@ -91,12 +92,29 @@ public class CaseService(FireBaseService fb)
         {
             "admin" => (await collection.GetSnapshotAsync()).Documents.Select(MapToCase).ToList(),
 
-            "mediator" => (await collection.WhereEqualTo("MediatorId", userId).GetSnapshotAsync())
-                .Documents.Select(MapToCase)
-                .ToList(),
+            "mediator" => await GetMediatorCasesAsync(userId),
 
             _ => await GetMyCaseAsync(userId), //Puede ser user: Reporter + respondent
         };
+    }
+
+    // Busca primero el perfil del mediador por UserId, luego trae los casos asignados a ese perfil
+    private async Task<List<ConflictCase>> GetMediatorCasesAsync(string userId)
+    {
+        var mediatorsCollection = _firebaseService.GetCollection("mediators");
+        var mediatorSnapshot = await mediatorsCollection
+            .WhereEqualTo("UserId", userId)
+            .GetSnapshotAsync();
+
+        var mediatorDoc = mediatorSnapshot.Documents.FirstOrDefault();
+        if (mediatorDoc == null)
+            return new List<ConflictCase>();
+
+        var mediatorId = mediatorDoc.Id;
+        var collection = _firebaseService.GetCollection(collectionName);
+        return (await collection.WhereEqualTo("MediatorId", mediatorId).GetSnapshotAsync())
+            .Documents.Select(MapToCase)
+            .ToList();
     }
 
     // Trae los casos donde el usuario es el que reporto, el denunciado o el mediador
@@ -173,9 +191,7 @@ public class CaseService(FireBaseService fb)
 
         // Incrementa los casos activos del mediador en la coleccion 'mediators'
         const string mediatorCollection = "mediators";
-        var mediatorDoc = _firebaseService
-            .GetCollection(mediatorCollection)
-            .Document(mediatorId);
+        var mediatorDoc = _firebaseService.GetCollection(mediatorCollection).Document(mediatorId);
         await mediatorDoc.UpdateAsync("ActiveCases", FieldValue.Increment(1));
 
         return caso;

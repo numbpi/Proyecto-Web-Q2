@@ -1,0 +1,175 @@
+<main class="agreement-page">
+  <header class="page-header">
+    <div>
+      <a mat-button routerLink="/home">
+        <mat-icon>arrow_back</mat-icon>
+        Volver al panel
+      </a>
+
+      <h1>Redactar acuerdo</h1>
+      <p>
+        Registra los compromisos alcanzados durante la mediación.
+      </p>
+    </div>
+  </header>
+
+  @if (successMessage) {
+    <mat-card class="message-card success-card">
+      <mat-icon>check_circle</mat-icon>
+      {{ successMessage }}
+    </mat-card>
+  }
+
+  @if (errorMessage) {
+    <mat-card class="message-card error-card">
+      <mat-icon>error</mat-icon>
+      {{ errorMessage }}
+    </mat-card>
+  }
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="45"></mat-spinner>
+      <p>Cargando casos...</p>
+    </div>
+  } @else {
+    <mat-card class="agreement-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>description</mat-icon>
+
+        <mat-card-title>Nuevo acuerdo</mat-card-title>
+
+        <mat-card-subtitle>
+          El acuerdo deberá ser confirmado por ambas partes.
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Caso en mediación</mat-label>
+
+          <mat-select [(ngModel)]="caseId">
+            @for (item of cases; track item.id) {
+              <mat-option [value]="item.id">
+                {{ item.conflictType }} -
+                {{ item.reporterName }} /
+                {{ item.respondentName }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Resumen general del acuerdo</mat-label>
+
+          <textarea
+            matInput
+            rows="5"
+            placeholder="Describe lo acordado por ambas partes"
+            [(ngModel)]="agreementText"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-divider></mat-divider>
+
+        <div class="points-header">
+          <div>
+            <h2>Puntos del acuerdo</h2>
+            <p>
+              Cada compromiso debe tener una fecha límite.
+            </p>
+          </div>
+
+          <button mat-stroked-button (click)="addPoint()">
+            <mat-icon>add</mat-icon>
+            Agregar punto
+          </button>
+        </div>
+
+        @for (
+          point of points;
+          track $index;
+          let index = $index
+        ) {
+          <div class="agreement-point">
+            <span class="point-number">
+              {{ index + 1 }}
+            </span>
+
+            <mat-form-field
+              appearance="outline"
+              class="description-field"
+            >
+              <mat-label>Descripción del compromiso</mat-label>
+
+              <textarea
+                matInput
+                rows="3"
+                [(ngModel)]="point.description"
+              ></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha límite</mat-label>
+
+              <input
+                matInput
+                type="date"
+                [min]="minimumDate"
+                [(ngModel)]="point.deadline"
+              />
+            </mat-form-field>
+
+            <button
+              mat-icon-button
+              aria-label="Eliminar punto"
+              (click)="removePoint(index)"
+              [disabled]="points.length === 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+
+        @if (cases.length === 0) {
+          <mat-card class="empty-card">
+            <mat-icon>info</mat-icon>
+
+            <p>
+              No tienes casos disponibles en estado
+              “en mediación”.
+            </p>
+          </mat-card>
+        }
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button
+          mat-flat-button
+          (click)="createAgreement()"
+          [disabled]="isSaving || cases.length === 0"
+        >
+          <mat-icon>send</mat-icon>
+
+          {{ isSaving ? 'Guardando...' : 'Crear acuerdo' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    @if (createdAgreement) {
+      <mat-card class="created-card">
+        <mat-icon>verified</mat-icon>
+
+        <div>
+          <h2>Acuerdo registrado</h2>
+
+          <p>
+            Se crearon
+            {{ createdAgreement.points.length }}
+            puntos para confirmar.
+          </p>
+        </div>
+      </mat-card>
+    }
+  }
+</main>
