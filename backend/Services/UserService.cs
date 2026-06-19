@@ -35,9 +35,7 @@ public class UserService
 
     public async Task<List<User>> GetAllUsersAsync()
     {
-        var snapshot = await _fireBaseService
-            .GetCollection("users")
-            .GetSnapshotAsync();
+        var snapshot = await _fireBaseService.GetCollection("users").GetSnapshotAsync();
 
         var users = new List<User>();
 
@@ -45,14 +43,16 @@ public class UserService
         {
             var data = doc.ToDictionary();
 
-            users.Add(new User
-            {
-                Id = data["Id"].ToString()!,
-                FullName = data["FullName"].ToString()!,
-                Email = data["Email"].ToString()!,
-                Role = data["Role"].ToString()!,
-                CreatedAt = ((Timestamp)data["CreatedAt"]).ToDateTime()
-            });
+            users.Add(
+                new User
+                {
+                    Id = data["Id"].ToString()!,
+                    FullName = data["FullName"].ToString()!,
+                    Email = data["Email"].ToString()!,
+                    Role = data["Role"].ToString()!,
+                    CreatedAt = ((Timestamp)data["CreatedAt"]).ToDateTime(),
+                }
+            );
         }
 
         return users;
