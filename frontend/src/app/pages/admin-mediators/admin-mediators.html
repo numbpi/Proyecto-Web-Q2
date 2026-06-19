@@ -14,8 +14,8 @@
     <mat-card-content>
 
       <mat-form-field appearance="outline">
-        <mat-label>Nombre completo</mat-label>
-        <input matInput [(ngModel)]="newMediator.fullName">
+        <mat-label>Email del usuario</mat-label>
+        <input matInput [(ngModel)]="newMediator.email" placeholder="victor@mediador.com">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -27,6 +27,10 @@
         <mat-label>Especialidad</mat-label>
         <input matInput [(ngModel)]="newMediator.specialty" placeholder="Ej: Ruido, Mascotas">
       </mat-form-field>
+
+      <p class="form-hint">
+        El nombre se obtiene automaticamente del usuario registrado con ese email.
+      </p>
 
     </mat-card-content>
 
@@ -74,6 +78,11 @@
       </mat-card-header>
 
       <mat-card-content>
+
+        <p *ngIf="mediator.email">
+          <strong>Email:</strong>
+          {{ mediator.email }}
+        </p>
 
         <p>
           <strong>Especialidad:</strong>

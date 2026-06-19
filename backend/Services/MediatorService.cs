@@ -7,28 +7,40 @@ public class MediatorService
 {
     // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService;
+    private readonly UserService _userService;
 
     // Nombre de la coleccion en Firestore
     private const string CollectionName = "mediators";
 
-    public MediatorService(FireBaseService fireBaseService)
+    public MediatorService(FireBaseService fireBaseService, UserService userService)
     {
         _fireBaseService = fireBaseService;
+        _userService = userService;
     }
 
-    // Crea un mediador nuevo en Firebase
+    // Crea un mediador nuevo en Firebase.
+    // Busca el usuario por email para obtener fullName y userId automaticamente.
     public async Task<Mediator> CreateAsync(CreateMediatorDto dto)
     {
+        //buscamos el usuario por email en la coleccion "users"
+        var user = await _userService.GetUserByEmailAsync(dto.Email);
+
+        if (user == null)
+            throw new KeyNotFoundException(
+                $"No se encontro ningun usuario con el email {dto.Email}"
+            );
+
         var mediator = new Mediator
         {
             Id = Guid.NewGuid().ToString(),
-            FullName = dto.FullName,
+            FullName = user.FullName,
+            Email = user.Email,
             Zone = dto.Zone,
             Specialty = dto.Specialty,
             IsAvailable = dto.IsAvailable,
             IsActive = true,
             ActiveCases = 0,
-            UserId = dto.UserId,
+            UserId = user.Id,
             CreatedAt = DateTime.UtcNow,
         };
 

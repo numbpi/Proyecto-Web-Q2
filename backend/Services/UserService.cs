@@ -33,6 +33,30 @@ public class UserService
         return user;
     }
 
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        var snapshot = await _fireBaseService
+            .GetCollection("users")
+            .WhereEqualTo("Email", email)
+            .GetSnapshotAsync();
+
+        var doc = snapshot.Documents.FirstOrDefault();
+
+        if (doc == null)
+            return null;
+
+        var data = doc.ToDictionary();
+
+        return new User
+        {
+            Id = data["Id"].ToString()!,
+            FullName = data["FullName"].ToString()!,
+            Email = data["Email"].ToString()!,
+            Role = data["Role"].ToString()!,
+            CreatedAt = ((Timestamp)data["CreatedAt"]).ToDateTime(),
+        };
+    }
+
     public async Task<List<User>> GetAllUsersAsync()
     {
         var snapshot = await _fireBaseService.GetCollection("users").GetSnapshotAsync();

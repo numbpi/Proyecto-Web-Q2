@@ -32,6 +32,10 @@ public class Mediator
     [FirestoreProperty]
     public int ActiveCases { get; set; }
 
+    // email del usuario, lo guardamos para mostrarlo en la lista
+    [FirestoreProperty]
+    public string Email { get; set; } = string.Empty;
+
     // referencia al Id del usuario en la coleccion "users"
     [FirestoreProperty]
     public string? UserId { get; set; }

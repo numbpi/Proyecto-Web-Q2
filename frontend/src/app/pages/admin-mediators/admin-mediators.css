@@ -88,3 +88,10 @@ mat-card-actions {
   color: gray;
   margin-bottom: 30px;
 }
+
+.form-hint {
+  text-align: center;
+  color: gray;
+  font-size: 13px;
+  margin: 0;
+}
