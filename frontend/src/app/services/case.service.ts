@@ -2,7 +2,28 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ICase, ICreateCaseDto } from '../models/case.model';
+
+
+import { ICreateCaseDto } from '../models/case.model';
+
+// Representa un caso que viene del backend
+export interface ICase {
+  id: string;
+  reporterId: string;
+  reporterName: string;
+  respondentId: string;
+  respondentName: string;
+  conflictType: string;
+  description: string;
+  address: string;
+  status: string;
+  mediatorId: string | null;
+  evidenceUrls: string[];
+  createdAt: string;
+  assignedAt: string | null;
+closedAt: string | null;
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class CaseService {
