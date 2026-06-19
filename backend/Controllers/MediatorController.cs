@@ -22,8 +22,15 @@ public class MediatorController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateMediatorDto dto)
     {
-        var mediator = await _mediatorService.CreateAsync(dto);
-        return Ok(mediator);
+        try
+        {
+            var mediator = await _mediatorService.CreateAsync(dto);
+            return Ok(mediator);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     // GET api/Mediator - Obtiene todos los mediadores registrados

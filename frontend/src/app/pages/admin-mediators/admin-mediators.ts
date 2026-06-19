@@ -33,7 +33,7 @@ export class AdminMediators implements OnInit {
 
   // Datos del formulario para crear mediador
   newMediator: ICreateMediator = {
-    fullName: '',
+    email: '',
     zone: '',
     specialty: '',
     isAvailable: true,
@@ -55,8 +55,7 @@ export class AdminMediators implements OnInit {
         this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (error: any) => {
-        console.error(error);
+      error: () => {
         this.errorMessage = 'Error al cargar los mediadores';
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -64,7 +63,6 @@ export class AdminMediators implements OnInit {
     });
   }
 
-  // Envía los datos del formulario al backend
   createMediator(): void {
     this.errorMessage = '';
     this.successMessage = '';
@@ -73,21 +71,19 @@ export class AdminMediators implements OnInit {
       next: () => {
         this.successMessage = 'Mediador creado correctamente';
 
-        // Limpiamos el formulario
         this.newMediator = {
-          fullName: '',
+          email: '',
           zone: '',
           specialty: '',
           isAvailable: true,
         };
 
-        // Recargamos la lista para mostrar el nuevo mediador
         this.loadMediators();
         this.cdr.detectChanges();
       },
       error: (error: any) => {
         console.error(error);
-        this.errorMessage = 'Error al crear el mediador';
+        this.errorMessage = 'Error al crear el mediador. Verificá que el email exista en el sistema.';
         this.cdr.detectChanges();
       }
     });

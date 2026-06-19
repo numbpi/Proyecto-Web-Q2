@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export interface IMediator {
   id: string;
   fullName: string;
+  email?: string;
   zone: string;
   specialty: string;
   isAvailable: boolean;
@@ -16,9 +17,10 @@ export interface IMediator {
   createdAt: string;
 }
 
-// Representa los datos que vamos a enviar al backend para crear un mediador
+// Representa los datos que vamos a enviar al backend para crear un mediador.
+// El backend busca el usuario por email y completa fullName solo.
 export interface ICreateMediator {
-  fullName: string;
+  email: string;
   zone: string;
   specialty: string;
   isAvailable: boolean;
