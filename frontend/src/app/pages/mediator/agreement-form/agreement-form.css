@@ -1,0 +1,151 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--mat-sys-surface);
+}
+
+.agreement-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 16px 0 6px;
+  color: var(--mat-sys-on-surface);
+  font-size: 30px;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.agreement-card {
+  padding: 10px;
+}
+
+.agreement-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.points-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin: 24px 0 18px;
+}
+
+.points-header h2 {
+  margin: 0 0 4px;
+}
+
+.points-header p {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.agreement-point {
+  display: grid;
+  grid-template-columns: 36px minmax(250px, 1fr) 190px 48px;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.point-number {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  font-weight: 600;
+}
+
+.description-field {
+  min-width: 0;
+}
+
+.message-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+.success-card {
+  color: var(--mat-sys-primary);
+}
+
+.error-card {
+  color: var(--mat-sys-error);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px;
+}
+
+.empty-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 18px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.created-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 22px;
+}
+
+.created-card mat-icon {
+  width: 42px;
+  height: 42px;
+  color: var(--mat-sys-primary);
+  font-size: 42px;
+}
+
+.created-card h2,
+.created-card p {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .agreement-point {
+    grid-template-columns: 36px minmax(0, 1fr) 48px;
+  }
+
+  .agreement-point mat-form-field:nth-of-type(2) {
+    grid-column: 2 / 3;
+  }
+
+  .points-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

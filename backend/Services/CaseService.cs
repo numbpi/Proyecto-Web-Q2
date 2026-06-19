@@ -91,12 +91,28 @@ public class CaseService(FireBaseService fb)
         {
             "admin" => (await collection.GetSnapshotAsync()).Documents.Select(MapToCase).ToList(),
 
-            "mediator" => (await collection.WhereEqualTo("MediatorId", userId).GetSnapshotAsync())
-                .Documents.Select(MapToCase)
-                .ToList(),
+            "mediator" => await GetMediatorCasesAsync(userId),
 
             _ => await GetMyCaseAsync(userId), //Puede ser user: Reporter + respondent
         };
+    }
+
+    // Busca primero el perfil del mediador por UserId, luego trae los casos asignados a ese perfil
+    private async Task<List<ConflictCase>> GetMediatorCasesAsync(string userId)
+    {
+        var mediatorsCollection = _firebaseService.GetCollection("mediators");
+        var mediatorSnapshot = await mediatorsCollection.WhereEqualTo("UserId", userId).GetSnapshotAsync();
+
+        var mediatorDoc = mediatorSnapshot.Documents.FirstOrDefault();
+        if (mediatorDoc == null)
+            return new List<ConflictCase>();
+
+        var mediatorId = mediatorDoc.Id;
+        var collection = _firebaseService.GetCollection(collectionName);
+        return (await collection.WhereEqualTo("MediatorId", mediatorId).GetSnapshotAsync())
+            .Documents
+            .Select(MapToCase)
+            .ToList();
     }
 
     // Trae los casos donde el usuario es el que reporto, el denunciado o el mediador
