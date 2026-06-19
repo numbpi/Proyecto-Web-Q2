@@ -58,7 +58,7 @@ export class AgreementService {
   ): Observable<IAgreement> {
     return this.http.put<IAgreement>(
       `${this.apiURL}/${agreementId}/confirm`,
-      { confirmed },
+      { agreementId, confirmed },
       {
         headers: this.getHeaders(),
       },
