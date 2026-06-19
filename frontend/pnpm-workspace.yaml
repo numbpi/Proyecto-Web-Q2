@@ -1,5 +1,8 @@
 allowBuilds:
-  esbuild: set this to true or false
+  '@parcel/watcher': true
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
 minimumReleaseAgeExclude:
   - '@angular-devkit/architect@0.2200.1'
   - '@angular-devkit/core@22.0.1'

@@ -8,6 +8,7 @@ public class AgreementService(FireBaseService fireBase)
 {
     // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService = fireBase;
+
     // Nombre de la coleccion en Firestore
     private readonly string collectionName = "agreements";
 

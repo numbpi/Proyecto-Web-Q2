@@ -7,6 +7,7 @@ public class MediatorService
 {
     // Servicio de Firebase para conectarse a la base de datos
     private readonly FireBaseService _fireBaseService;
+
     // Nombre de la coleccion en Firestore
     private const string CollectionName = "mediators";
 

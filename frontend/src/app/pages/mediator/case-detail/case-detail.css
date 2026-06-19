@@ -1,0 +1,117 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--mat-sys-surface);
+}
+
+.case-detail-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.detail-header h1 {
+  margin: 0 0 6px;
+  color: var(--mat-sys-on-surface);
+  font-size: 30px;
+}
+
+.detail-header p {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.detail-grid mat-card {
+  height: 100%;
+}
+
+mat-card-content {
+  padding-top: 20px;
+}
+
+.information-item {
+  padding: 14px 0;
+}
+
+.information-item p {
+  margin: 6px 0 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0;
+}
+
+.person mat-icon {
+  color: var(--mat-sys-primary);
+}
+
+.person p {
+  margin: 4px 0 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.actions-card {
+  margin-top: 20px;
+  padding: 8px;
+}
+
+.actions-card mat-card-actions {
+  gap: 12px;
+  padding: 16px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px;
+}
+
+.message-card,
+.success-card,
+.error-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 16px;
+}
+
+.success-card {
+  color: var(--mat-sys-primary);
+}
+
+.error-card {
+  color: var(--mat-sys-error);
+}
+
+@media (max-width: 700px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
