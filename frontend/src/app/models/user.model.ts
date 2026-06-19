@@ -12,11 +12,13 @@ export interface IRegisterResponse {
 
 export interface IForgotPasswordRequest {
   email: string;
+  message: string;
 }
 
 export interface IResetPasswordRequest {
   token: string;
   newPassword: string;
+  message: string;
 }
 
 export interface ICurrentUser {

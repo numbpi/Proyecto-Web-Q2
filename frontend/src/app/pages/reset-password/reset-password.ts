@@ -64,7 +64,7 @@ export class ResetPassword implements OnInit {
     }
 
     this.authService.resetPassword(this.token, this.newPassword).subscribe({
-      next: (res: { message: string }): void => {
+      next: (res): void => {
         this.successMessage = res.message;
         this.isLoading = false;
         this.cdr.detectChanges();

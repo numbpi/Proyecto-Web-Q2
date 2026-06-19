@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ILoginResponse, IRegisterResponse } from '../models/user.model';
+import {
+  IForgotPasswordRequest,
+  ILoginResponse,
+  IRegisterResponse,
+  IResetPasswordRequest,
+} from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,11 +20,11 @@ export class AuthService {
   register = (fullName: string, email: string, password: string): Observable<IRegisterResponse> =>
     this.http.post<IRegisterResponse>(`${this.apiURL}/register`, { fullName, email, password });
 
-  forgotPassword = (email: string): Observable<{ message: string }> =>
-    this.http.post<{ message: string }>(`${this.apiURL}/forgot-password`, { email });
+  forgotPassword = (email: string): Observable<IForgotPasswordRequest> =>
+    this.http.post<IForgotPasswordRequest>(`${this.apiURL}/forgot-password`, { email });
 
-  resetPassword = (token: string, newPassword: string): Observable<{ message: string }> =>
-    this.http.post<{ message: string }>(`${this.apiURL}/reset-password`, { token, newPassword });
+  resetPassword = (token: string, newPassword: string): Observable<IResetPasswordRequest> =>
+    this.http.post<IResetPasswordRequest>(`${this.apiURL}/reset-password`, { token, newPassword });
 
   /**
    * @param {string} email - correo electronico del usuario

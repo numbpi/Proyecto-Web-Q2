@@ -31,7 +31,6 @@ export class ForgotPassword {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -41,7 +40,7 @@ export class ForgotPassword {
     this.isLoading = true;
 
     this.authService.forgotPassword(this.email).subscribe({
-      next: (res: { message: string }): void => {
+      next: (res): void => {
         this.successMessage = res.message;
         this.isLoading = false;
         this.cdr.detectChanges();
