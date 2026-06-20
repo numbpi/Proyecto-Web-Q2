@@ -34,3 +34,22 @@ dotnet restore
 | `Scalar.AspNetCore` | `2.14.11` |
 | `MailKit` | `4.17.0` |
 
+## Configuración de Email (MailKit)
+
+Para usar el servicio de correo (recuperación de contraseña), creá `appsettings.Development.json` en la raíz del backend:
+
+```json
+{
+  "Email": {
+    "SmtpHost": "smtp.gmail.com",
+    "SmtpPort": 587,
+    "SmtpUser": "tu-correo@gmail.com",
+    "SmtpPass": "tu-contraseña-de-aplicacion",
+    "FromName": "Proyecto Web Q2",
+    "FromAddress": "tu-correo@gmail.com"
+  }
+}
+```
+
+> Este archivo está en `.gitignore` para no subir credenciales al repo.
+
